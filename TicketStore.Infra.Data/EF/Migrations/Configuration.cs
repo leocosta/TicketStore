@@ -13,7 +13,7 @@ namespace TicketStore.Infra.Data.EF.Migrations
 
         protected override void Seed(Contexts.TicketStoreContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            //  This method will be called after migrating to the latest version. 
             context.Users.AddOrUpdate(
               new User
               {
