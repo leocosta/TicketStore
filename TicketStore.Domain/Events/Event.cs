@@ -5,7 +5,7 @@ namespace TicketStore.Domain.Events
 {
     public class Event
     {
-        public int EventId { get; private set; }
+        public int EventId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Address Location { get; set; }

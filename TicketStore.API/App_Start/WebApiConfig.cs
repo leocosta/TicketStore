@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Net.Http.Formatting;
 using System.Web.Http;
+using TicketStore.API.IoC;
 
 namespace TicketStore.API
 {
@@ -10,6 +11,7 @@ namespace TicketStore.API
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            UnityConfig.ConfigureUnityContainer();
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -19,6 +21,11 @@ namespace TicketStore.API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Formatters.Add(new JsonMediaTypeFormatter());
+            config.Formatters.JsonFormatter.Indent = true;
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
         }
     }
 }

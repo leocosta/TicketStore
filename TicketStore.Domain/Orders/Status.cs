@@ -2,9 +2,11 @@
 {
     public enum Status : byte
     {
-        Awaitting,
-        InProgress,
-        Completed,
-        Cancelled
+        Created = 1,
+        Processing = 2,
+        PaymentReview = 3,
+        PaymentReceived = 4,
+        Closed = 5,
+        Cancelled = 6
     }
 }

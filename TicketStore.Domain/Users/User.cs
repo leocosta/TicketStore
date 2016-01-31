@@ -9,11 +9,11 @@ namespace TicketStore.Domain.Users
         public string Name { get; set; }
         public string SSN { get; set; }
         public Gender Gender { get; set; }
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
         public DateTime Birthdate { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public ICollection<CreditCard> CreditCards { get; set; }
+        public virtual ICollection<CreditCard> CreditCards { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ModifyDate { get; set; }
     }

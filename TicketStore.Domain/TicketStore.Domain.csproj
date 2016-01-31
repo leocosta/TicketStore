@@ -40,12 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\IRepository.cs" />
+    <Compile Include="Common\IUnitOfWork.cs" />
     <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\IEventRepository.cs" />
+    <Compile Include="Orders\IOrderRepository.cs" />
     <Compile Include="Orders\Order.cs" />
     <Compile Include="Orders\Status.cs" />
     <Compile Include="Users\Address.cs" />
     <Compile Include="Users\CreditCard.cs" />
     <Compile Include="Users\Gender.cs" />
+    <Compile Include="Users\IUserRepository.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
