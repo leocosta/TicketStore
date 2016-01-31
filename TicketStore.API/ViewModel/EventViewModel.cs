@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace TicketStore.API.ViewModel
 {
@@ -16,9 +17,9 @@ namespace TicketStore.API.ViewModel
         [DataMember]
         public decimal Price { get; set; }
         [DataMember]
-        public decimal StartDate { get; set; }
+        public DateTime StartDate { get; set; }
         [DataMember]
-        public decimal EndDate { get; set; }
+        public DateTime EndDate { get; set; }
         [DataMember]
         public string CardImageUrl { get; set; }
     }

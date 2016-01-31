@@ -8,10 +8,12 @@ namespace TicketStore.API.ViewModel
         [DataMember]
         public int? CreditCardId { get; set; }
         [DataMember]
-        public string Name { get; set; }
+        public string Brand { get; set; }
         [DataMember]
-        public string Token { get; set; }
+        public string LastFourDigits { get; set; }
         [DataMember]
-        public OrderViewModel Owner { get; set; }
+        public int ExpMonth { get; set; }
+        [DataMember]
+        public int ExpYear { get; set; }
     }
 }

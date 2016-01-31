@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
 using TicketStore.Domain.Orders;
 
-namespace TicketStore.Infra.Data.EF.Configurations
+namespace TicketStore.Infra.Data.Persistence.EF.Configurations
 {
     public class OrderConfiguration : EntityTypeConfiguration<Order>
     {
@@ -17,6 +16,10 @@ namespace TicketStore.Infra.Data.EF.Configurations
             base.HasRequired(p => p.Event)
                 .WithMany()
                 .Map(m => m.MapKey("EventId"));
+
+            base.HasOptional(p => p.CreditCardTransation)
+                .WithRequired(r => r.Order)
+                .Map(m => m.MapKey("OrderId"));
         }
     }
 }

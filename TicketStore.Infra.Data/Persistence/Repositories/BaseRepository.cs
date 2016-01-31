@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using TicketStore.Domain.Common;
 
-namespace TicketStore.Infra.Data.Repositories
+namespace TicketStore.Infra.Data.Persistence.Repositories
 {
     public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {

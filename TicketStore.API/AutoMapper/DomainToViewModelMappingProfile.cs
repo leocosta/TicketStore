@@ -2,7 +2,7 @@
 using TicketStore.API.ViewModel;
 using TicketStore.Domain.Events;
 using TicketStore.Domain.Orders;
-using TicketStore.Domain.Users;
+using TicketStore.Domain.CreditCards;
 
 namespace TicketStore.API.AutoMapper
 {
@@ -17,7 +17,9 @@ namespace TicketStore.API.AutoMapper
                 .ForMember(i => i.Password, opt => opt.Ignore());
             Mapper.CreateMap<Address, AddressViewModel>();
             Mapper.CreateMap<Event, EventViewModel>();
-            Mapper.CreateMap<Order, OrderViewModel>();
+            Mapper.CreateMap<Order, OrderViewModel>()
+                .ForMember(i => i.Customer, opt => opt.Ignore());
+            Mapper.CreateMap<PaymentInfo, PaymentInfoViewModel>();
         }
     }
 }

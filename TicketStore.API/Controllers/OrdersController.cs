@@ -3,27 +3,34 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TicketStore.API.Filters;
 using TicketStore.API.ViewModel;
+using TicketStore.Domain.Common;
 using TicketStore.Domain.Events;
 using TicketStore.Domain.Orders;
-using TicketStore.Domain.Users;
+using TicketStore.Domain.CreditCards;
 
 namespace TicketStore.API.Controllers
 {
     public class OrdersController : ApiController
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;
         private readonly IEventRepository _eventRepository;
+        private readonly IPaymentService _paymentGatewayService;
 
-        public OrdersController(IOrderRepository orderRepository, IUserRepository userRepository, IEventRepository eventRepository)
+        public OrdersController(IUnitOfWork unitOfWork, IOrderRepository orderRepository, IUserRepository userRepository,
+                IEventRepository eventRepository, IPaymentService paymentGatewayService)
         {
+            _unitOfWork = unitOfWork;
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
+            _paymentGatewayService = paymentGatewayService;
         }
 
-        // GET api/users
+        // GET api/orders
         public HttpResponseMessage Get()
         {
             var orders = _orderRepository.GetAll();
@@ -31,7 +38,7 @@ namespace TicketStore.API.Controllers
             return Request.CreateResponse(result);
         }
 
-        // GET api/users/5
+        // GET api/orders/5
         public HttpResponseMessage Get(int id) { 
             var order = _orderRepository.Get(id);
             if (order == null)
@@ -41,16 +48,31 @@ namespace TicketStore.API.Controllers
             return Request.CreateResponse(result);
         }
 
-        // POST api/users
+        // POST api/orders
+        [ModelValidate]
         public HttpResponseMessage Post(OrderViewModel orderViewModel)
         {
-            //var user = _userRepository.Get(id);
-            //if (user == null)
-            //    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User not found.");
+            if (orderViewModel == null)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid request.");
 
-            //var result = Mapper.Map<User, UserViewModel>(user);
-            //return Request.CreateResponse(result);
-            return Request.CreateResponse();
+            var customer = _userRepository.Get(orderViewModel.Customer.UserId.Value);
+            if (customer == null)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Customer not found.");
+
+            var @event = _eventRepository.Get(orderViewModel.Event.EventId.Value);
+            if (@event == null)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Event not found.");
+
+            var order = new Order(customer, @event, orderViewModel.Quantity);
+
+            _orderRepository.Add(order);
+            _unitOfWork.Commit();
+
+            var paymentInfo = Mapper.Map<PaymentInfoViewModel, PaymentInfo>(orderViewModel.PaymentInfo);
+            order.ProcessPayment(paymentInfo, _paymentGatewayService, _unitOfWork);
+
+            var result = Mapper.Map<Order, OrderViewModel>(order);
+            return Request.CreateResponse(result);
         }
     }
 }

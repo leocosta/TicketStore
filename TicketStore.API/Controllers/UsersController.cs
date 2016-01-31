@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TicketStore.API.ViewModel;
-using TicketStore.Domain.Users;
+using TicketStore.Domain.CreditCards;
 
 namespace TicketStore.API.Controllers
 {

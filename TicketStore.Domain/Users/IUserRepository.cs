@@ -1,6 +1,6 @@
 ﻿using TicketStore.Domain.Common;
 
-namespace TicketStore.Domain.Users
+namespace TicketStore.Domain.CreditCards
 {
     public interface IUserRepository : IRepository<User>
     {

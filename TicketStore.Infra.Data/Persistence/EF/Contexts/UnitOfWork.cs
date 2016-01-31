@@ -1,24 +1,58 @@
-﻿using TicketStore.Domain.Common;
+﻿using System;
+using System.Data.Entity;
+using TicketStore.Domain.Common;
 
-namespace TicketStore.Infra.Data.EF.Contexts
+namespace TicketStore.Infra.Data.Persistence.EF.Contexts
 {
-    public class UnitOfWork : IUnitOfWork
+    public sealed class UnitOfWork : IUnitOfWork
     {
-        public TicketStoreContext TicketStoreContext { get; private set; }
+        /// <summary>
+        /// The DbContext
+        /// </summary>
+        private DbContext _dbContext;
 
-        public UnitOfWork(TicketStoreContext ticketStoreContext)
+        /// <summary>
+        /// Initializes a new instance of the UnitOfWork class.
+        /// </summary>
+        /// <param name="context">The object context</param>
+        public UnitOfWork(DbContext context)
         {
-            TicketStoreContext = ticketStoreContext;
+            _dbContext = context;
         }
 
-        public void Commit()
+        /// <summary>
+        /// Saves all pending changes
+        /// </summary>
+        /// <returns>The number of objects in an Added, Modified, or Deleted state</returns>
+        public int Commit()
         {
-            TicketStoreContext.Commit();
+            // Save changes with the default options
+            return _dbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Disposes the current object
+        /// </summary>
         public void Dispose()
         {
-            TicketStoreContext.Commit();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+           
+        /// <summary>
+        /// Disposes all external resources.
+        /// </summary>
+        /// <param name="disposing">The dispose indicator.</param>
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_dbContext != null)
+                {
+                    _dbContext.Dispose();
+                    _dbContext = null;
+                }
+            }
         }
     }
 }

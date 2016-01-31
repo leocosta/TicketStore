@@ -1,5 +1,5 @@
 ﻿using System;
-using TicketStore.Domain.Users;
+using TicketStore.Domain.CreditCards;
 
 namespace TicketStore.Domain.Events
 {
@@ -14,6 +14,6 @@ namespace TicketStore.Domain.Events
         public DateTime EndDate { get; set; }
         public string CardImageUrl { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime ModifyDate { get; set; }
+        public DateTime? ModifyDate { get; set; }
     }
 }

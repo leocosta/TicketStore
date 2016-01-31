@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
-using TicketStore.Domain.Users;
+using TicketStore.Domain.CreditCards;
 
-namespace TicketStore.Infra.Data.EF.Configurations
+namespace TicketStore.Infra.Data.Persistence.EF.Configurations
 {
     public class UserConfiguration : EntityTypeConfiguration<User>
     {

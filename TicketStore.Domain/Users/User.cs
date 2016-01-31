@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TicketStore.Domain.Users
+namespace TicketStore.Domain.CreditCards
 {
     public class User
     {
@@ -15,6 +15,11 @@ namespace TicketStore.Domain.Users
         public string Password { get; set; }
         public virtual ICollection<CreditCard> CreditCards { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime ModifyDate { get; set; }
+        public DateTime? ModifyDate { get; set; }
+
+        internal void AddCreditCard(CreditCard creditCard)
+        {
+            this.CreditCards.Add(creditCard);
+        }
     }
 }

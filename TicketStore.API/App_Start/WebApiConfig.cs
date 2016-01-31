@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Serialization;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using TicketStore.API.IoC;
 
 namespace TicketStore.API
 {
@@ -10,9 +9,6 @@ namespace TicketStore.API
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            UnityConfig.ConfigureUnityContainer();
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 

@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 using TicketStore.Domain.Events;
 
-namespace TicketStore.Infra.Data.EF.Configurations
+namespace TicketStore.Infra.Data.Persistence.EF.Configurations
 {
     public class EventConfiguration : EntityTypeConfiguration<Event>
     {

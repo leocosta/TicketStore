@@ -72,6 +72,7 @@
     <Compile Include="Integration\MundiPaggGateway.cs" />
     <Compile Include="Persistence\EF\Configurations\EventConfiguration.cs" />
     <Compile Include="Persistence\EF\Configurations\OrderConfiguration.cs" />
+    <Compile Include="Persistence\EF\Configurations\CreditCardTransationConfiguration.cs" />
     <Compile Include="Persistence\EF\Contexts\TicketStoreContext.cs" />
     <Compile Include="Persistence\EF\Migrations\Configuration.cs" />
     <Compile Include="Persistence\Repositories\EventRepository.cs" />

@@ -1,13 +1,14 @@
-﻿using TicketStore.Domain.Common;
+﻿using System.Data.Entity;
+using TicketStore.Domain.Common;
 using TicketStore.Domain.Orders;
-using TicketStore.Infra.Data.EF.Contexts;
+using TicketStore.Infra.Data.Persistence.EF.Contexts;
 
-namespace TicketStore.Infra.Data.Repositories
+namespace TicketStore.Infra.Data.Persistence.Repositories
 {
     public class OrderRepository : BaseRepository<Order>, IOrderRepository
     {
-        public OrderRepository(IUnitOfWork unitOfWork)
-            : base((unitOfWork as UnitOfWork).TicketStoreContext) { }
+        public OrderRepository(DbContext context)
+            : base(context) { }
     
         public Order Get(int id)
         {

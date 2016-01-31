@@ -1,11 +1,12 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
 using TicketStore.Domain.Events;
 using TicketStore.Domain.Orders;
-using TicketStore.Domain.Users;
-using TicketStore.Infra.Data.EF.Configurations;
+using TicketStore.Domain.CreditCards;
+using TicketStore.Infra.Data.Persistence.EF.Configurations;
 
-namespace TicketStore.Infra.Data.EF.Contexts
+namespace TicketStore.Infra.Data.Persistence.EF.Contexts
 {
     public class TicketStoreContext : DbContext
     {
@@ -28,15 +29,11 @@ namespace TicketStore.Infra.Data.EF.Contexts
             base.OnModelCreating(modelBuilder);
         }
 
-        public void Commit()
-        {
-            SaveChanges();
-        }
-
         public override int SaveChanges()
         {
             return base.SaveChanges();
         }
+
         private void setConvetions(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

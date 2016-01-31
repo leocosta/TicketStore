@@ -1,11 +1,37 @@
 ﻿using System;
 using TicketStore.Domain.Events;
-using TicketStore.Domain.Users;
+using TicketStore.Domain.CreditCards;
+using TicketStore.Infra.CrossCutting.Helpers;
+using TicketStore.Domain.Common;
 
 namespace TicketStore.Domain.Orders
 {
     public class Order
     {
+        public Order()
+        {
+            Status = Status.Created;
+            CreateDate = DateTime.Now;
+        }
+
+        public Order(User customer, Event @event, int quantity) 
+            : this()
+        {
+            if (customer == null)
+                throw new ArgumentNullException("customer");
+
+            if (customer == null)
+                throw new ArgumentNullException("customer");
+
+            if (quantity < 1)
+                throw new InvalidOperationException("Quantity should be should be greater than zero.");
+
+            Customer = customer;
+            Event = @event;
+            Price = @event.Price;
+            Quantity = quantity;
+        }
+
         public int OrderId { get; private set; }
         public virtual User Customer { get; set; }
         public virtual Event Event { get; set; }
@@ -13,47 +39,41 @@ namespace TicketStore.Domain.Orders
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime ModifyDate { get; set; }
+        public DateTime? ModifyDate { get; set; }
         public virtual CreditCardTransation CreditCardTransation { get; set; }
 
-        public void ProcessPayment(PaymentInfo paymentInfo, IPaymentGateway paymentGateway, IUserRepository userRepository)
+        public void ProcessPayment(PaymentInfo paymentInfo, IPaymentService paymentGatewayService, IUnitOfWork unitOfWork)
         {
+            if (paymentInfo == null)
+                throw new ArgumentNullException("paymentInfo");
+
+            if (paymentGatewayService == null)
+                throw new ArgumentNullException("paymentGatewayService");
+
             paymentInfo.Amount = (long)this.GetAmount();
-            paymentGateway.CreateTransaction(paymentInfo);
+            var paymentResult = paymentGatewayService.CreateTransaction(paymentInfo);
+            this.CreditCardTransation = new CreditCardTransation(paymentResult.TransactionReference);
+
             if (paymentInfo.SaveCreditCard)
             {
-                //var creditCard = new CreditCard.Create(paymentInfo);
-                //userRepository
+                var creditCard = new CreditCard()
+                {
+                    InstantBuyKey = paymentResult.InstantBuyKey,
+                    Brand = paymentInfo.CreditCardBrand,
+                    LastFourDigits = paymentInfo.CreditCardNumber.GetLast(4),
+                    ExpMonth = paymentInfo.ExpMonth,
+                    ExpYear = paymentInfo.ExpYear,
+                    Owner = this.Customer
+                };
+                this.Customer.AddCreditCard(creditCard);
             }
+
+            unitOfWork.Commit();
         }
 
         private decimal GetAmount()
         {
             return Price * Quantity;
         }
-    }
-
-    public interface IPaymentGateway
-    {
-        void CreateTransaction(PaymentInfo paymentInfo);
-    }
-
-    public class PaymentInfo
-    {
-        public string CreditCardNumber { get; set; }
-        public CreditCardBrand CreditCardBrand { get; set; }
-        public int ExpMonth { get; set; }
-        public int ExpYear { get; set; }
-        public string SecurityCode { get; set; }
-        public string HolderName { get; set; }
-        public bool SaveCreditCard { get; set; }
-        public long Amount { get; set; }
-    }
-
-    public class CreditCardTransation
-    {
-        public int PaymentTransationId { get; private set; }
-        public string IntegrationToken { get; private set; }
-        public decimal Amount { get; set; }
     }
 }

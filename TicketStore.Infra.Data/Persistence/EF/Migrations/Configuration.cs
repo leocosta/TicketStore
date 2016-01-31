@@ -1,12 +1,12 @@
-namespace TicketStore.Infra.Data.EF.Migrations
+namespace TicketStore.Infra.Data.Persistence.EF.Migrations
 {
     using System.Data.Entity.Migrations;
-    using Domain.Users;
+    using Domain.CreditCards;
     using System;
     using Contexts;
     using Domain.Events;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Contexts.TicketStoreContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<TicketStoreContext>
     {
         public Configuration()
         {

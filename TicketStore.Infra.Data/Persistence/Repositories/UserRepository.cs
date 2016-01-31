@@ -1,13 +1,14 @@
-﻿using TicketStore.Domain.Common;
-using TicketStore.Domain.Users;
-using TicketStore.Infra.Data.EF.Contexts;
+﻿using System.Data.Entity;
+using TicketStore.Domain.Common;
+using TicketStore.Domain.CreditCards;
+using TicketStore.Infra.Data.Persistence.EF.Contexts;
 
-namespace TicketStore.Infra.Data.Repositories
+namespace TicketStore.Infra.Data.Persistence.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(IUnitOfWork unitOfWork)
-            : base((unitOfWork as UnitOfWork).TicketStoreContext) { }
+        public UserRepository(DbContext context)
+            : base(context) { }
 
         public User Get(string email)
         {
