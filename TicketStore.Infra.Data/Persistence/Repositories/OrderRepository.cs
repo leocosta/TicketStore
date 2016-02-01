@@ -12,7 +12,7 @@ namespace TicketStore.Infra.Data.Persistence.Repositories
     
         public Order Get(int id)
         {
-            return base.Single(i => i.OrderId == id);
+            return base.FirstOrDefault(i => i.OrderId == id);
         }
     }
 }

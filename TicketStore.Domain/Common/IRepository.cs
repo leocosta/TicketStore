@@ -58,7 +58,7 @@ namespace TicketStore.Domain.Common
         /// </summary>
         /// <param name="predicate">where clause</param>
         /// <returns>Only one entity</returns>
-        TEntity Single(Expression<Func<TEntity, bool>> predicate);
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
         /// <summary>
         /// Gets first entity
         /// </summary>

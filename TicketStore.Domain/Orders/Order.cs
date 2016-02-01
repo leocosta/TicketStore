@@ -42,7 +42,7 @@ namespace TicketStore.Domain.Orders
         public DateTime? ModifyDate { get; set; }
         public virtual CreditCardTransation CreditCardTransation { get; set; }
 
-        public void ProcessPayment(PaymentInfo paymentInfo, IPaymentService paymentGatewayService, IUnitOfWork unitOfWork)
+        public void ProcessPayment(PaymentInfo paymentInfo, IPaymentService paymentGatewayService)
         {
             if (paymentInfo == null)
                 throw new ArgumentNullException("paymentInfo");
@@ -50,30 +50,31 @@ namespace TicketStore.Domain.Orders
             if (paymentGatewayService == null)
                 throw new ArgumentNullException("paymentGatewayService");
 
-            paymentInfo.Amount = (long)this.GetAmount();
+            paymentInfo.Amount = (long)this.getAmount();
             var paymentResult = paymentGatewayService.CreateTransaction(paymentInfo);
             this.CreditCardTransation = new CreditCardTransation(paymentResult.TransactionReference);
 
-            if (paymentInfo.SaveCreditCard)
-            {
-                var creditCard = new CreditCard()
-                {
-                    InstantBuyKey = paymentResult.InstantBuyKey,
-                    Brand = paymentInfo.CreditCardBrand,
-                    LastFourDigits = paymentInfo.CreditCardNumber.GetLast(4),
-                    ExpMonth = paymentInfo.ExpMonth,
-                    ExpYear = paymentInfo.ExpYear,
-                    Owner = this.Customer
-                };
-                this.Customer.AddCreditCard(creditCard);
-            }
-
-            unitOfWork.Commit();
+            registerCreditCardTransation(paymentResult);
+            saveCreditCard(paymentInfo, paymentResult);
         }
-
-        private decimal GetAmount()
+        private decimal getAmount()
         {
             return Price * Quantity;
+        }
+
+        private void registerCreditCardTransation(PaymentResult paymentResult)
+        {
+            this.CreditCardTransation = new CreditCardTransation(paymentResult.TransactionReference);
+        }
+
+        private void saveCreditCard(PaymentInfo paymentInfo, PaymentResult paymentResult)
+        {
+            if (!paymentInfo.SaveCreditCard || paymentInfo.InstantBuyKey != null)
+                return;
+
+            var creditCard = new CreditCard(this.Customer, paymentResult.InstantBuyKey,
+                paymentInfo.CreditCardBrand, paymentInfo.CreditCardNumber.GetLast(4), paymentInfo.ExpMonth, paymentInfo.ExpYear);
+            this.Customer.AddCreditCard(creditCard);
         }
     }
 }

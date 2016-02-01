@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace TicketStore.API.ViewModel
 {
@@ -7,6 +8,8 @@ namespace TicketStore.API.ViewModel
     {
         [DataMember]
         public int? CreditCardId { get; set; }
+        [DataMember]
+        public Guid? InstantBuyKey { get; set; }
         [DataMember]
         public string Brand { get; set; }
         [DataMember]

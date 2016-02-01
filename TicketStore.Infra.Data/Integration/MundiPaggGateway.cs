@@ -11,12 +11,26 @@ namespace TicketStore.Infra.Data.Integration
 {
     public class MundiPaggGateway : IPaymentService
     {
+        private readonly GatewayServiceClient _serviceClient = new GatewayServiceClient();
+
         public PaymentResult CreateTransaction(PaymentInfo paymentInfo)
         {
-            var transaction = new CreditCardTransaction()
-            {
-                AmountInCents = paymentInfo.Amount,
-                CreditCard = new CreditCard()
+            var transaction = createCreditCardTransation(paymentInfo);
+            var httpResponse = _serviceClient.Sale.Create(transaction);
+
+            var createSaleResponse = httpResponse.Response;
+            if (httpResponse.HttpStatusCode != HttpStatusCode.Created)
+                throw new InvalidOperationException("Unable to process payment.", treatErrorReport(createSaleResponse.ErrorReport));
+
+            var creditCardTransaction = createSaleResponse.CreditCardTransactionResultCollection.FirstOrDefault();
+            return new PaymentResult(creditCardTransaction.TransactionReference, creditCardTransaction.CreditCard.InstantBuyKey);
+        }
+
+        private CreditCardTransaction createCreditCardTransation(PaymentInfo paymentInfo)
+        {
+            var creditCard = paymentInfo.InstantBuyKey != null
+                ? new CreditCard { InstantBuyKey = paymentInfo.InstantBuyKey.Value }
+                : new CreditCard
                 {
                     CreditCardNumber = paymentInfo.CreditCardNumber,
                     CreditCardBrand = (CreditCardBrandEnum)paymentInfo.CreditCardBrand,
@@ -24,27 +38,21 @@ namespace TicketStore.Infra.Data.Integration
                     ExpYear = paymentInfo.ExpYear,
                     SecurityCode = paymentInfo.SecurityCode,
                     HolderName = paymentInfo.HolderName
-                }
+                };
+
+            return new CreditCardTransaction()
+            {
+                AmountInCents = paymentInfo.Amount,
+                CreditCard = creditCard
             };
-
-            var serviceClient = new GatewayServiceClient();
-            var httpResponse = serviceClient.Sale.Create(transaction);
-
-            var createSaleResponse = httpResponse.Response;
-            if (httpResponse.HttpStatusCode != HttpStatusCode.Created)
-                throw new InvalidOperationException("Payment failed.", treatInnerException(createSaleResponse));
-
-            var creditCardTransaction = createSaleResponse.CreditCardTransactionResultCollection.FirstOrDefault();
-            return new PaymentResult(creditCardTransaction.TransactionReference, creditCardTransaction.CreditCard.InstantBuyKey);
         }
-
-        private Exception treatInnerException(CreateSaleResponse createSaleResponse)
+        private Exception treatErrorReport(ErrorReport errorReport)
         {
-            if (createSaleResponse.ErrorReport == null)
+            if (errorReport == null)
                 return null;
 
             var errorMessages = new StringBuilder();
-            foreach (ErrorItem errorItem in createSaleResponse.ErrorReport.ErrorItemCollection)
+            foreach (var errorItem in errorReport.ErrorItemCollection)
                 errorMessages.AppendFormat("Error {0}: {1}", errorItem.ErrorCode, errorItem.Description);
 
             return new Exception(errorMessages.ToString());

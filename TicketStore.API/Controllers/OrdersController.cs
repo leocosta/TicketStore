@@ -9,6 +9,7 @@ using TicketStore.Domain.Common;
 using TicketStore.Domain.Events;
 using TicketStore.Domain.Orders;
 using TicketStore.Domain.CreditCards;
+using System.Linq;
 
 namespace TicketStore.API.Controllers
 {
@@ -18,16 +19,16 @@ namespace TicketStore.API.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;
         private readonly IEventRepository _eventRepository;
-        private readonly IPaymentService _paymentGatewayService;
+        private readonly IPaymentService _paymentService;
 
         public OrdersController(IUnitOfWork unitOfWork, IOrderRepository orderRepository, IUserRepository userRepository,
-                IEventRepository eventRepository, IPaymentService paymentGatewayService)
+                IEventRepository eventRepository, IPaymentService paymentService)
         {
             _unitOfWork = unitOfWork;
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
-            _paymentGatewayService = paymentGatewayService;
+            _paymentService = paymentService;
         }
 
         // GET api/orders
@@ -63,13 +64,22 @@ namespace TicketStore.API.Controllers
             if (@event == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Event not found.");
 
-            var order = new Order(customer, @event, orderViewModel.Quantity);
+            var paymentInfo = Mapper.Map<PaymentInfoViewModel, PaymentInfo>(orderViewModel.PaymentInfo);
+            if (orderViewModel.PaymentInfo.CreditCardId.HasValue)
+            {
+                var creditCard = customer.CreditCards.FirstOrDefault(a => a.CreditCardId.Equals(orderViewModel.PaymentInfo.CreditCardId.Value));
+                if (creditCard == null)
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Credit Card not found.");
 
+                paymentInfo.InstantBuyKey = creditCard.InstantBuyKey;
+            }
+
+            var order = new Order(customer, @event, orderViewModel.Quantity);
             _orderRepository.Add(order);
             _unitOfWork.Commit();
-
-            var paymentInfo = Mapper.Map<PaymentInfoViewModel, PaymentInfo>(orderViewModel.PaymentInfo);
-            order.ProcessPayment(paymentInfo, _paymentGatewayService, _unitOfWork);
+    
+            order.ProcessPayment(paymentInfo, _paymentService);
+            _unitOfWork.Commit();
 
             var result = Mapper.Map<Order, OrderViewModel>(order);
             return Request.CreateResponse(result);

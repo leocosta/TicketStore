@@ -19,6 +19,8 @@ namespace TicketStore.API.AutoMapper
             Mapper.CreateMap<Event, EventViewModel>();
             Mapper.CreateMap<Order, OrderViewModel>()
                 .ForMember(i => i.Customer, opt => opt.Ignore());
+            Mapper.CreateMap<CreditCard, CreditCardViewModel>()
+                .ForMember(i => i.InstantBuyKey, opt => opt.Ignore());
             Mapper.CreateMap<PaymentInfo, PaymentInfoViewModel>();
         }
     }

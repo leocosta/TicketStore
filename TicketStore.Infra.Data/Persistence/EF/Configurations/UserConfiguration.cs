@@ -18,7 +18,7 @@ namespace TicketStore.Infra.Data.Persistence.EF.Configurations
                     new IndexAnnotation(new IndexAttribute("IX_Users_Email", 1) { IsUnique = true }));
 
             base.HasMany(p => p.CreditCards)
-                .WithRequired(i => i.Owner)
+                .WithRequired(i => i.User)
                 .Map(m => m.MapKey("UserId"));
         }
     }

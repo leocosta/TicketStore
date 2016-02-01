@@ -1,10 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace TicketStore.API.ViewModel
 {
     [DataContract]
     public class PaymentInfoViewModel
     {
+        [DataMember]
+        public int? CreditCardId { get; set; }
         [DataMember]
         public string CreditCardNumber { get; set; }
         [DataMember]

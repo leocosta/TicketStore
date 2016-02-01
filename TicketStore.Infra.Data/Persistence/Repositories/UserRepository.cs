@@ -12,12 +12,12 @@ namespace TicketStore.Infra.Data.Persistence.Repositories
 
         public User Get(string email)
         {
-            return base.Single(i => i.Email == email);
+            return base.FirstOrDefault(i => i.Email == email);
         }
 
         public User Get(int id)
         {
-            return base.Single(i => i.UserId == id);
+            return base.FirstOrDefault(i => i.UserId == id);
         }
     }
 }

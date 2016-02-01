@@ -67,7 +67,7 @@ namespace TicketStore.Infra.Data.Persistence.Repositories
             return _dbSet.Where(predicate).Skip(pageSize).Take(page);
         }
 
-        public TEntity Single(Expression<Func<TEntity, bool>> predicate)
+        public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.Single(predicate);
         }

@@ -12,7 +12,7 @@ namespace TicketStore.Infra.Data.Persistence.Repositories
     
         public Event Get(int id)
         {
-            return base.Single(i => i.EventId == id);
+            return base.FirstOrDefault(i => i.EventId == id);
         }
     }
 }
