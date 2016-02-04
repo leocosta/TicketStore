@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @ngdoc service
  * @name ticketStoreAppApp.appStarter

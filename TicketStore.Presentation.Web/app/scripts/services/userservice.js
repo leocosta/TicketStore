@@ -18,5 +18,5 @@ angular.module('ticketStoreAppApp')
         var uri = urlBuilder('users');
         return $http.post(uri, user);
       }
-    }
+    };
   });

@@ -48,7 +48,7 @@ angular.module('ticketStoreAppApp')
         });
         return false;
       }
-      return true
+      return true;
     };
 
   });

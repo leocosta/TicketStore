@@ -68,7 +68,7 @@ angular.module('ticketStoreAppApp')
         toaster.pop('error', null, 'Você deve digitar o número de um cartão de crédito válido.');
         return false;
       }
-      return true
+      return true;
     };
 
     this.init();
