@@ -3,8 +3,11 @@ using System;
 using System.Data.Entity;
 using TicketStore.Domain.Common;
 using TicketStore.Domain.Events;
+using TicketStore.Domain.Notifications;
 using TicketStore.Domain.Orders;
 using TicketStore.Domain.Users;
+using TicketStore.Infra.CrossCutting.Notification;
+using TicketStore.Infra.CrossCutting.Notifications;
 using TicketStore.Infra.Data.Integration;
 using TicketStore.Infra.Data.Persistence.EF.Contexts;
 using TicketStore.Infra.Data.Persistence.Repositories;
@@ -48,6 +51,8 @@ namespace TicketStore.API.IoC
             container.RegisterType<IEventRepository, EventRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IOrderRepository, OrderRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IPaymentService, MundiPaggGateway>(new HierarchicalLifetimeManager());
+            container.RegisterType<IMessageService, MailService>(new HierarchicalLifetimeManager());
+            container.RegisterType<INotificationService, NotificationService>(new HierarchicalLifetimeManager());
             container.RegisterType<AuthenticationService, AuthenticationService>(new HierarchicalLifetimeManager());
         }
     }

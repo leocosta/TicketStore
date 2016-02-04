@@ -10,6 +10,7 @@ using TicketStore.Domain.Events;
 using TicketStore.Domain.Orders;
 using TicketStore.Domain.Users;
 using System.Linq;
+using TicketStore.Domain.Notifications;
 
 namespace TicketStore.API.Controllers
 {
@@ -20,15 +21,17 @@ namespace TicketStore.API.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IEventRepository _eventRepository;
         private readonly IPaymentService _paymentService;
+        private readonly INotificationService _notificationService;
 
         public OrdersController(IUnitOfWork unitOfWork, IOrderRepository orderRepository, IUserRepository userRepository,
-                IEventRepository eventRepository, IPaymentService paymentService)
+                IEventRepository eventRepository, IPaymentService paymentService, INotificationService notificationService)
         {
             _unitOfWork = unitOfWork;
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _eventRepository = eventRepository;
             _paymentService = paymentService;
+            _notificationService = notificationService;
         }
 
         // GET api/orders
@@ -79,8 +82,7 @@ namespace TicketStore.API.Controllers
             _unitOfWork.Commit();
 
             //TODO: add order to queue 
-            order.ProcessPayment(paymentInfo, _paymentService);
-            _unitOfWork.Commit();
+            order.ProcessPayment(paymentInfo, _paymentService, _notificationService, _unitOfWork);
 
             var result = Mapper.Map<Order, OrderViewModel>(order);
             return Request.CreateResponse(result);

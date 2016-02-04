@@ -36,7 +36,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +43,8 @@
     <Compile Include="Common\IUnitOfWork.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\IEventRepository.cs" />
+    <Compile Include="Notifications\INotificationService.cs" />
+    <Compile Include="Notifications\NotificationService.cs" />
     <Compile Include="Orders\CreditCardTransaction.cs" />
     <Compile Include="Orders\IOrderRepository.cs" />
     <Compile Include="Orders\IPaymentService.cs" />
@@ -67,6 +68,9 @@
       <Project>{1298a241-69fc-41e5-a89b-10ab92300f50}</Project>
       <Name>TicketStore.Infra.CrossCutting</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
