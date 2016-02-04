@@ -1,0 +1,149 @@
+<div class="container">
+  <div class="row">
+    <form name="checkout.frmCheckout" role="form" ng-submit="checkout.purchase()" role="form" novalidate>
+      <div class="col-md-6">
+        <h2>Selecione um de seus cartões de crédito</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Seus cartões de crédito</th>
+              <th>Nome no cartão</th>
+              <th>Vencimento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2>Ou informe outro cartão</h2>
+        <div class="panel panel-default credit-card-box">
+          <div class="panel-heading display-table">
+            <div class="row display-tr">
+              <div class="display-td">
+                <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <label for="creiditCardNumber">Número do Cartão</label>
+                    <div class="input-group" ng-class="{'has-error': checkout.frmCheckout.creditCardNumber.$invalid && checkout.frmCheckout.creditCardNumber.$dirty }">
+                      <input type="text" class="form-control" name="creditCardNumber" placeholder="Número do Cartão"
+                      autocomplete="cc-number" ng-required="true" ng-model="checkout.order.paymentInfo.creditCardNumber" ng-blur="checkout.checkCreditCardNumber()">
+                      <span class="input-group-addon">
+                        <i class="fa fa-credit-card"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-7 col-md-7">
+                  <div class="form-group">
+                    <label for="cardExpiry">
+                      <span class="hidden-xs">Data de Validade</span>
+                      <span class="visible-xs-inline">EXP</span>
+                    </label>
+                    <div class="row">
+                    <div class="col-xs-6 col-md-6" ng-class="{'has-error': checkout.frmCheckout.expMonth.$invalid && checkout.frmCheckout.expMonth.$dirty }">
+                      <input type="text" class="form-control" name="expMonth" placeholder="Mês" autocomplete="cc-exp" maxlength="2" ng-model="checkout.order.paymentInfo.expMonth" ng-required="true">
+                    </div>
+                    <div class="col-xs-6 col-md-6" ng-class="{'has-error': checkout.frmCheckout.expYear.$invalid && checkout.frmCheckout.expYear.$dirty }">
+                      <input type="text" class="form-control" name="expYear" placeholder="Ano" autocomplete="cc-exp" maxlength="4" ng-model="checkout.order.paymentInfo.expYear" ng-required="true">
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-5 col-md-5 pull-right">
+                  <div class="form-group" ng-class="{'has-error': checkout.frmCheckout.securityCode.$invalid && checkout.frmCheckout.securityCode.$dirty }">
+                    <label for="securityCode">Código de Segurança</label>
+                    <input type="tel" class="form-control" name="securityCode"
+                    placeholder="CVC" maxlength="4" ng-model="checkout.order.paymentInfo.securityCode" ng-required="true">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="form-group" ng-class="{'has-error': checkout.frmCheckout.holderName.$invalid && checkout.frmCheckout.holderName.$dirty }">
+                    <label for="holderName">Titular do cartão</label>
+                    <input type="text" class="form-control" name="holderName" placeholder="Nome do Titular do Cartão" ng-model="checkout.order.paymentInfo.holderName" ng-required="true">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                    <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-checked="checkout.order.paymentInfo.saveCreditCard" class="text-muted"> Salvar dados do pagamento para a próxima compra
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <button class="btn btn-warning btn-lg btn-block" type="submit">Finalizar Compra</button>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <img ng-src="{{checkout.event.cardImageUrl}}" class="img-responsive">
+          <h1 class="text-danger">{{checkout.event.name}}</h1>
+          <h3>{{checkout.event.startDate | date:'EEEE, MMMM d'}}</h3>
+          <p>{{checkout.event.description}}</p>
+          <address>
+            <strong>Endereço</strong><br>
+            {{checkout.event.location.line1}} {{checkout.event.location.number}}<br>
+            {{checkout.event.location.line2}}<br>
+            {{checkout.event.location.city}} - {{checkout.event.location.state}}<br>
+            {{checkout.event.location.zipCode}}<br>
+          </address>
+          <div class="row">
+            <div class="col-xs-12 col-md-12 well">
+              <div class="form-group">
+                <div class="col-xs-8 col-md-8">
+                  <label class="control-label col-md-12" for="name">Quantidade</label>
+                  <div class="col-xs-4 col-md-4" ng-class="{'has-error': checkout.frmCheckout.quantity.$invalid && checkout.frmCheckout.quantity.$dirty }">
+                    <select id="quantity" name="quantity" ng-model="checkout.order.quantity" class="form-control" ng-required="true">
+                      <option selected>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                  <label class="control-label col-md-12" for="name">Preço</label>
+                  <div class="col-xs-4 col-md-4">
+                    <strong class="text-success">{{checkout.event.price | currency}}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form name="signup.frmSignUp" role="form" ng-submit="signup.signUp()" class="form-horizontal" role="form" novalidate>
+        <legend>Cadastro </legend>
+        <div class="form-group">
+          <label class="control-label col-md-2" for="name">Nome</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.name.$invalid && signup.frmSignUp.name.$dirty }">
+            <input class="form-control" id="name" name="name" type="text" ng-model="signup.user.name" ng-required="true">
+          </div>
+          <label class="control-label col-md-2" for="ssn">CPF</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.ssn.$invalid && signup.frmSignUp.ssn.$dirty }">
+            <input class="form-control" id="ssn" name="ssn" type="number" ng-model="signup.user.ssn" ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2" for="name">Nascimento</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.birthdate.$invalid && signup.frmSignUp.birthdate.$dirty }">
+            <p class="input-group">
+              <input class="form-control"
+                id="birthdate" name="birthdate" type="text"
+                uib-datepicker-popup="dd/MM/yyyy" ng-model="signup.user.birthdate"
+                is-open="signup.birthdatePopUp.opened"
+                ng-click="signup.birthdatePopUp.opened = true"
+                ng-required="true" close-text="Fechar" alt-input-formats="'d!/M!/yyyy'" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="signup.birthdatePopUp.opened = true">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </p>
+          </div>
+          <label class="control-label col-md-2">Sexo</label>
+          <div class="col-md-4">
+            <div class="btn-group">
+              <label class="btn btn-default" ng-model="signup.user.gender" uib-btn-radio="'Male'">Masculino</label>
+              <label class="btn btn-default" ng-model="signup.user.gender" uib-btn-radio="'Female'">Feminino</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2" for="addressLine1">Endereço</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.addressLine1.$invalid && signup.frmSignUp.addressLine1.$dirty }">
+            <input class="form-control" id="addressLine1" name="addressLine1" type="text" ng-model="signup.user.address.line1" ng-required="true">
+          </div>
+          <label class="control-label col-md-2" for="addressNumber">Número</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.addressNumber.$invalid && signup.frmSignUp.addressNumber.$dirty }">
+            <input class="form-control" id="addressNumber" name="addressNumber" type="text" ng-model="signup.user.address.number" ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2" for="addressLine2">Complemento</label>
+          <div class="col-md-4">
+            <input class="form-control" id="addressLine2" name="addressLine2" type="text" ng-model="signup.user.address.line2">
+          </div>
+          <label class="control-label col-md-2" for="addressCity">Cidade</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.addressCity.$invalid && signup.frmSignUp.addressCity.$dirty }">
+            <input class="form-control" id="addressCity" name="addressCity" type="text" ng-model="signup.user.address.city" ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2" for="addressState">Estado</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.addressState.$invalid && signup.frmSignUp.addressState.$dirty }">
+            <select id="addressState" name="addressState" class="form-control"  ng-model="signup.user.address.state" ng-required="true">
+              <option value="">Escolha o Estado</option>
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espirito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraiba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantis</option>
+            </select>
+          </div>
+          <label class="control-label col-md-2" for="addressZipCode">Cep</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.addressZipCode.$invalid && signup.frmSignUp.addressZipCode.$dirty }">
+            <input class="form-control" id="addressZipCode" name="addressZipCode" type="number" ng-model="signup.user.address.zipCode" ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-md-2" for="email">E-mail</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.email.$invalid && signup.frmSignUp.email.$dirty }">
+            <input class="form-control" id="email" name="email" type="email" ng-model="signup.user.email" ng-required="true">
+          </div>
+          <label class="control-label col-md-2" for="password">Senha</label>
+          <div class="col-md-4" ng-class="{'has-error': signup.frmSignUp.password.$invalid && signup.frmSignUp.password.$dirty }">
+            <input class="form-control" id="password" name="password" type="password" ng-model="signup.user.password" ng-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-4">
+            <button type="submit" class="btn btn-danger">Cadastrar</button>
+            <span class="pull-right">Já tem uma conta? <a href="#/signin" class="text-link">Faça login</a></span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

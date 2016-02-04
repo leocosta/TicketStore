@@ -1,0 +1,22 @@
+<div class="section" ng-repeat="event in events.events">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <img ng-src="{{event.cardImageUrl}}" class="img-responsive">
+      </div>
+      <div class="col-md-6">
+        <h1 class="text-danger">{{event.name}}</h1>
+        <h3>{{event.startDate | date:'EEEE, MMMM d'}}</h3>
+        <p>{{event.description}}</p>
+        <address>
+          <strong>Endereço</strong><br>
+          {{event.location.line1}} {{event.location.number}}<br>
+          {{event.location.line2}}<br>
+          {{event.location.city}} - {{event.location.state}}<br>
+          {{event.location.zipCode}}<br>
+        </address>
+        <a ui-sref="checkout(event)" class="btn btn-danger">Comprar</a>
+      </div>
+    </div>
+  </div>
+</div>

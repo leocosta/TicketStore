@@ -1,0 +1,34 @@
+{
+  "name": "Ticket Store",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "^1.4.0",
+    "bootstrap": "^3.2.0",
+    "angular-sanitize": "^1.4.0",
+    "angular-touch": "^1.4.0",
+    "angular-bootstrap": "^1.1.2",
+    "angular-i18n": "^1.4.9",
+    "angular-cookie": "^4.0.10",
+    "AngularJS-Toaster": "^1.0.0",
+    "angular-ui-router": "^0.2.17"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.4.0"
+  },
+  "appPath": "app",
+  "moduleName": "ticketStoreAppApp",
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
+    "angular-i18n": {
+      "main": [
+        "angular-locale_pt-br.js"
+      ]
+    }
+  }
+}

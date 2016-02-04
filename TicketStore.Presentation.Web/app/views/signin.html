@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <form name="signin.frmSignIn" role="form" ng-submit="signin.login()" novalidate>
+        <legend>Fazer Login</legend>
+        <div class="form-group" ng-class="{'has-error': signin.frmSignIn.email.$invalid && signin.frmSignIn.email.$dirty }">
+          <label class="control-label" for="email">Email</label>
+          <input class="form-control" id="email" name="email" placeholder="Email"
+          type="email" ng-model="signin.credentials.email" ng-required="true">
+        </div>
+        <div class="form-group" ng-class="{'has-error': signin.frmSignIn.password.$invalid && signin.frmSignIn.password.$dirty }">
+          <label class="control-label" for="password">Senha</label>
+          <input class="form-control" id="password" name="password" placeholder="Senha"
+          type="password" ng-model="signin.credentials.password" ng-required="true">
+        </div>
+        <button type="submit" class="btn btn-danger">Entrar</button>
+        <a href="#/signup" class="pull-right text-link">Ou Cadastre-se</a>
+      </form>
+    </div>
+  </div>
+</div>

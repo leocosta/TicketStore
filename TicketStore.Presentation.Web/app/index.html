@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="keywords" content="Tickets, Ingressos, Eventos">
+    <meta name="description" content="Junte-se agora a centenas de milhares de organizadores de eventos que vendem ingressos">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TicketStore</title>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/bootstrap-theme.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  </head>
+  <body ng-app="ticketStoreAppApp">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <toaster-container toaster-options="{'position-class': 'toast-top-center', 'close-button': true}"></toaster-container>
+
+    <div ng-include src="'views/_menu.html'" ng-if="!showCoverImage"></div>
+
+    <div class="cover" ng-if="showCoverImage">
+      <div ng-include src="'views/_menu.html'"></div>
+      <div class="cover-image"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h1 class="text-danger">Venda de ingressos</h1>
+            <p class="text-inverse">Junte-se agora a centenas de milhares de organizadores de eventos que
+              vendem ingressos</p>
+            <br>
+            <br>
+            <a ng-href="#/events" class="btn btn-lg btn-danger">COMEÇAR AGORA</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" ng-if="!showCoverImage" ui-view></div>
+
+    <footer class="section section-danger">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6">
+            <h1>TicketStore</h1>
+            <p>A melhor e mais completa plataforma de venda de ingressos. <br>
+               Na TicketStore você compra com agilidade e economia.</p>
+          </div>
+          <div class="col-sm-6">
+            <p class="text-info text-right">
+              <br>
+              <br>
+            </p>
+            <div class="row">
+              <div class="col-md-12 hidden-lg hidden-md hidden-sm text-left">
+                <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 hidden-xs text-right">
+                <a href="#"><i class="fa fa-3x fa-fw fa-instagram text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-twitter text-inverse"></i></a>
+                <a href="#"><i class="fa fa-3x fa-fw fa-facebook text-inverse"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-i18n/angular-locale_pt-br.js"></script>
+    <script src="bower_components/angular-cookie/angular-cookie.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/AngularJS-Toaster/toaster.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/common/settings.js"></script>
+    <script src="scripts/common/util.js"></script>
+    <script src="scripts/common/session.js"></script>
+    <script src="scripts/common/urlbuilder.js"></script>
+    <script src="scripts/common/interceptor.js"></script>
+    <script src="scripts/common/appstarter.js"></script>
+    <script src="scripts/common/waitingdialog.js"></script>
+    <script src="scripts/controllers/events.js"></script>
+    <script src="scripts/controllers/signin.js"></script>
+    <script src="scripts/controllers/signup.js"></script>
+    <script src="scripts/controllers/checkout.js"></script>
+    <script src="scripts/controllers/confirmation.js"></script>
+    <script src="scripts/services/authservice.js"></script>
+    <script src="scripts/services/userservice.js"></script>
+    <script src="scripts/services/eventservice.js"></script>
+    <script src="scripts/services/orderservice.js"></script>
+    <!-- endbuild -->
+</body>
+</html>
