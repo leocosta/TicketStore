@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using TicketStore.Domain.Events;
 using TicketStore.Domain.Orders;
-using TicketStore.Domain.CreditCards;
+using TicketStore.Domain.Users;
 using TicketStore.Infra.Data.Persistence.EF.Configurations;
 
 namespace TicketStore.Infra.Data.Persistence.EF.Contexts

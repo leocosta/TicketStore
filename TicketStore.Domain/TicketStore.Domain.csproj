@@ -54,8 +54,11 @@
     <Compile Include="Users\Address.cs" />
     <Compile Include="CreditCards\CreditCard.cs" />
     <Compile Include="CreditCards\CreditCardBrand.cs" />
+    <Compile Include="Users\AuthenticationService.cs" />
     <Compile Include="Users\Gender.cs" />
     <Compile Include="Users\IUserRepository.cs" />
+    <Compile Include="Users\NotAllowedException.cs" />
+    <Compile Include="Users\UnauthorizedException.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

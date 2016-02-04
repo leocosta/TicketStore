@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
-using TicketStore.Domain.CreditCards;
+using TicketStore.Domain.Users;
 
 namespace TicketStore.Infra.Data.Persistence.EF.Configurations
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace TicketStore.Domain.CreditCards
+namespace TicketStore.Domain.Users
 {
     public class CreditCard
     {
-        internal CreditCard()
+        public CreditCard()
         {
             CreateDate = DateTime.Now;
         }

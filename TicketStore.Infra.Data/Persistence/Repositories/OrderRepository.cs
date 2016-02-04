@@ -1,7 +1,5 @@
 ﻿using System.Data.Entity;
-using TicketStore.Domain.Common;
 using TicketStore.Domain.Orders;
-using TicketStore.Infra.Data.Persistence.EF.Contexts;
 
 namespace TicketStore.Infra.Data.Persistence.Repositories
 {

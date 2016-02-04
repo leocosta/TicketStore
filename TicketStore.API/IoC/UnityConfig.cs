@@ -1,12 +1,12 @@
-using System;
 using Microsoft.Practices.Unity;
+using System;
 using System.Data.Entity;
-using TicketStore.Infra.Data.Persistence.EF.Contexts;
 using TicketStore.Domain.Common;
-using TicketStore.Domain.CreditCards;
 using TicketStore.Domain.Events;
 using TicketStore.Domain.Orders;
+using TicketStore.Domain.Users;
 using TicketStore.Infra.Data.Integration;
+using TicketStore.Infra.Data.Persistence.EF.Contexts;
 using TicketStore.Infra.Data.Persistence.Repositories;
 
 namespace TicketStore.API.IoC
@@ -48,6 +48,7 @@ namespace TicketStore.API.IoC
             container.RegisterType<IEventRepository, EventRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IOrderRepository, OrderRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IPaymentService, MundiPaggGateway>(new HierarchicalLifetimeManager());
+            container.RegisterType<AuthenticationService, AuthenticationService>(new HierarchicalLifetimeManager());
         }
     }
 }

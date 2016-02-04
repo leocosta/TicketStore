@@ -1,7 +1,7 @@
 namespace TicketStore.Infra.Data.Persistence.EF.Migrations
 {
     using System.Data.Entity.Migrations;
-    using Domain.CreditCards;
+    using Domain.Users;
     using System;
     using Contexts;
     using Domain.Events;
@@ -17,28 +17,29 @@ namespace TicketStore.Infra.Data.Persistence.EF.Migrations
         protected override void Seed(TicketStoreContext context)
         {
             //  This method will be called after migrating to the latest version. 
-            context.Users.AddOrUpdate(u => u.Email, 
-              new User
-              {
-                  UserId = 1,
-                  Name = "Leonardo Costa",
-                  Birthdate = new DateTime(1981, 04, 21),
-                  Email = "leoccosta@outlook.com",
-                  CreateDate = DateTime.Now,
-                  ModifyDate = DateTime.Now,
-                  Gender = Gender.Male,
-                  Password = "123456",
-                  SSN = "05522078707",
-                  Address = new Address()
-                  {
-                      Line1 = "Rua Min. João Alberto, 30",
-                      Line2 = "Casa",
-                      State = "RJ",
-                      ZipCode = "25555130",
-                      City = "São João de Meriti"
-                  }
-              }
-            );
+            var user = new User
+            {
+                UserId = 1,
+                Name = "Leonardo Costa",
+                Birthdate = new DateTime(1981, 04, 21),
+                Email = "leoccosta@outlook.com",
+                CreateDate = DateTime.Now,
+                ModifyDate = DateTime.Now,
+                Gender = Gender.Male,
+                SSN = "05522078707",
+                Address = new Address()
+                {
+                    Line1 = "Rua Min. João Alberto",
+                    Line2 = "Casa",
+                    Number = "30",
+                    State = "RJ",
+                    City = "São João de Meriti",
+                    ZipCode = "25555130"
+                }
+            };
+
+            user.SetPassword("123456");
+            context.Users.AddOrUpdate(u => u.Email, user);
 
             context.Events.AddOrUpdate(e => e.EventId,
               new Event
@@ -55,8 +56,9 @@ namespace TicketStore.Infra.Data.Persistence.EF.Migrations
                                 às duas escolas de análises: técnica e fundamentalista.",
                   Location = new Address()
                   {
-                      Line1 = "Av. das Américas, 500 - Barra da Tijuca",
-                      Line2 = "Bloco 21, Sala 248 - Shopping Downtown",
+                      Line1 = "Av. das Américas",
+                      Line2 = "Bloco 21, Sala 248 - Barra da Tijuca - Shopping Downtown",
+                      Number = "500",
                       State = "RJ",
                       City = "Rio de Janeiro",
                       ZipCode = "22115456"
@@ -75,8 +77,9 @@ namespace TicketStore.Infra.Data.Persistence.EF.Migrations
                   Description = @"Seja bem vindo à Pilates Institute! (21) 3403-3402. Aproveite seu curso!",
                   Location = new Address()
                   {
-                      Line1 = "Hilário de Gouveia, 66 - Copacabana - Rio de Janeiro",
+                      Line1 = "Hilário de Gouveia",
                       Line2 = "Sala 705 e 706 - Espaço Vital Fit",
+                      Number = "66",
                       State = "RJ",
                       City = "Rio de Janeiro",
                       ZipCode = "22040020"

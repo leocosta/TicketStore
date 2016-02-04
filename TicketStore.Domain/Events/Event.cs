@@ -1,5 +1,5 @@
 ﻿using System;
-using TicketStore.Domain.CreditCards;
+using TicketStore.Domain.Users;
 
 namespace TicketStore.Domain.Events
 {

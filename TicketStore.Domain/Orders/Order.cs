@@ -1,8 +1,7 @@
 ﻿using System;
 using TicketStore.Domain.Events;
-using TicketStore.Domain.CreditCards;
+using TicketStore.Domain.Users;
 using TicketStore.Infra.CrossCutting.Helpers;
-using TicketStore.Domain.Common;
 
 namespace TicketStore.Domain.Orders
 {
@@ -42,20 +41,30 @@ namespace TicketStore.Domain.Orders
         public DateTime? ModifyDate { get; set; }
         public virtual CreditCardTransation CreditCardTransation { get; set; }
 
-        public void ProcessPayment(PaymentInfo paymentInfo, IPaymentService paymentGatewayService)
+        public void ProcessPayment(PaymentInfo paymentInfo, IPaymentService paymentService)
         {
             if (paymentInfo == null)
                 throw new ArgumentNullException("paymentInfo");
 
-            if (paymentGatewayService == null)
-                throw new ArgumentNullException("paymentGatewayService");
+            if (paymentService == null)
+                throw new ArgumentNullException("paymentService");
 
-            paymentInfo.Amount = (long)this.getAmount();
-            var paymentResult = paymentGatewayService.CreateTransaction(paymentInfo);
-            this.CreditCardTransation = new CreditCardTransation(paymentResult.TransactionReference);
+            PaymentResult paymentResult = null;
+            try
+            {
+                this.Status = Status.Processing;
+                paymentInfo.Amount = (long)this.getAmount();
+                paymentResult = paymentService.CreateTransaction(paymentInfo);
+                this.Status = Status.PaymentReceived;
+            }
+            catch (Exception ex)
+            {
+                this.Status = Status.PaymentReview;
+                throw new InvalidOperationException(string.Format("We encountered an error processing your payment: {0}", ex.Message));
+            }
 
             registerCreditCardTransation(paymentResult);
-            saveCreditCard(paymentInfo, paymentResult);
+            saveUserCreditCard(paymentInfo, paymentResult);
         }
         private decimal getAmount()
         {
@@ -67,7 +76,7 @@ namespace TicketStore.Domain.Orders
             this.CreditCardTransation = new CreditCardTransation(paymentResult.TransactionReference);
         }
 
-        private void saveCreditCard(PaymentInfo paymentInfo, PaymentResult paymentResult)
+        private void saveUserCreditCard(PaymentInfo paymentInfo, PaymentResult paymentResult)
         {
             if (!paymentInfo.SaveCreditCard || paymentInfo.InstantBuyKey != null)
                 return;

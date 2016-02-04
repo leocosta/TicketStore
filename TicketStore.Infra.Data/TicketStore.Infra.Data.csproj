@@ -94,6 +94,10 @@
       <Project>{058ce539-cf64-4031-8eb6-9bb7f8fedad6}</Project>
       <Name>TicketStore.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TicketStore.Infra.CrossCutting\TicketStore.Infra.CrossCutting.csproj">
+      <Project>{1298a241-69fc-41e5-a89b-10ab92300f50}</Project>
+      <Name>TicketStore.Infra.CrossCutting</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

@@ -17,7 +17,7 @@
     <AssemblyName>TicketStore.API</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -161,9 +161,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\AccessController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Filters\ApiHttpError.cs" />
     <Compile Include="Filters\Error.cs" />
     <Compile Include="Filters\ModelValidate.cs" />
+    <Compile Include="Handlers\TokenValidationHandler.cs" />
     <Compile Include="IoC\UnityConfig.cs" />
     <Compile Include="IoC\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -177,6 +181,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\AddressViewModel.cs" />
+    <Compile Include="ViewModel\CredentialsViewModel.cs" />
     <Compile Include="ViewModel\CreditCardViewModel.cs" />
     <Compile Include="ViewModel\EventViewModel.cs" />
     <Compile Include="ViewModel\PaymentInfoViewModel.cs" />
@@ -230,7 +235,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62853</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/ticketstore</IISUrl>
+          <IISUrl>http://localhost:5000/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -8,7 +8,7 @@ using TicketStore.API.ViewModel;
 using TicketStore.Domain.Common;
 using TicketStore.Domain.Events;
 using TicketStore.Domain.Orders;
-using TicketStore.Domain.CreditCards;
+using TicketStore.Domain.Users;
 using System.Linq;
 
 namespace TicketStore.API.Controllers
@@ -77,12 +77,22 @@ namespace TicketStore.API.Controllers
             var order = new Order(customer, @event, orderViewModel.Quantity);
             _orderRepository.Add(order);
             _unitOfWork.Commit();
-    
+
+            //TODO: add order to queue 
             order.ProcessPayment(paymentInfo, _paymentService);
             _unitOfWork.Commit();
 
             var result = Mapper.Map<Order, OrderViewModel>(order);
             return Request.CreateResponse(result);
+        }
+
+        // OPTIONS api/orders
+        public HttpResponseMessage Options()
+        {
+            var response = new HttpResponseMessage();
+            response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+
+            return response;
         }
     }
 }

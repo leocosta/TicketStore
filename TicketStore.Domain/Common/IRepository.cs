@@ -12,6 +12,12 @@ namespace TicketStore.Domain.Common
         /// <param name="entity">Entity</param>
         void Add(TEntity entity);
         /// <summary>
+        /// Add or Update entity on the context
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// 
+        void AddOrUpdate(TEntity entity);
+        /// <summary>
         /// Attach entity on the context
         /// </summary>
         /// <param name="entity">Entity</param>

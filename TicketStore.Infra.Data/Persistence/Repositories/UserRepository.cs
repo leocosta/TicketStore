@@ -1,7 +1,5 @@
 ﻿using System.Data.Entity;
-using TicketStore.Domain.Common;
-using TicketStore.Domain.CreditCards;
-using TicketStore.Infra.Data.Persistence.EF.Contexts;
+using TicketStore.Domain.Users;
 
 namespace TicketStore.Infra.Data.Persistence.Repositories
 {

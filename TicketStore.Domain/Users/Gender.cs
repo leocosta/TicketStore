@@ -1,4 +1,4 @@
-﻿namespace TicketStore.Domain.CreditCards
+﻿namespace TicketStore.Domain.Users
 {
     public enum Gender : byte
     {

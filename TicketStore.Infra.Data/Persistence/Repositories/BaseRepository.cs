@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using TicketStore.Domain.Common;
@@ -24,6 +25,14 @@ namespace TicketStore.Infra.Data.Persistence.Repositories
                 throw new ArgumentNullException("entity");
 
             _dbSet.Add(entity);
+        }
+
+        public void AddOrUpdate(TEntity entity)
+        {
+            if (entity == null)
+                throw new ArgumentNullException("entity");
+
+            _dbSet.AddOrUpdate(entity);
         }
 
         public void Attach(TEntity entity)
@@ -69,7 +78,7 @@ namespace TicketStore.Infra.Data.Persistence.Repositories
 
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbSet.Single(predicate);
+            return _dbSet.FirstOrDefault(predicate);
         }
 
         public TEntity First(Expression<Func<TEntity, bool>> predicate)

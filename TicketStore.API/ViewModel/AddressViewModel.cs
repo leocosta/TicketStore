@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Web;
+﻿using System.Runtime.Serialization;
 
 namespace TicketStore.API.ViewModel
 {
@@ -13,6 +9,8 @@ namespace TicketStore.API.ViewModel
         public string Line1 { get; set; }
         [DataMember]
         public string Line2 { get; set; }
+        [DataMember]
+        public string Number { get; set; }
         [DataMember]
         public string State { get; set; }
         [DataMember]
