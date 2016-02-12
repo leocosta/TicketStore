@@ -2,8 +2,8 @@
 {
     internal class PaymentProcessed
     {
-        public int OrderId { get; }
-        public bool Success { get; }
+        public int OrderId { get; private set; }
+        public bool Success { get; private set; }
         public PaymentProcessed(int orderId, bool success)
         {
             OrderId = orderId;

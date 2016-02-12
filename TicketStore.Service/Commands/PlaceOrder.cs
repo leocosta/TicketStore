@@ -4,10 +4,10 @@ namespace TicketStore.Service.Commands
 {
     public class PlaceOrder
     {
-        public int UserId { get; }
-        public int EventId { get; }
-        public int Quantity { get; }
-        public PaymentInfo PaymentInfo { get; }
+        public int UserId { get; private set; }
+        public int EventId { get; private set; }
+        public int Quantity { get; private set; }
+        public PaymentInfo PaymentInfo { get; private set; }
 
         public PlaceOrder(int userId, int eventId, int quantity, PaymentInfo paymentInfo)
         {
