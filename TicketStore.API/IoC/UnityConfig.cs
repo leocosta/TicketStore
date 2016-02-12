@@ -46,7 +46,7 @@ namespace TicketStore.API.IoC
             // container.LoadConfiguration();
 
             container.RegisterType<DbContext, TicketStoreContext>(new PerThreadLifetimeManager());
-            container.RegisterType<IUnitOfWork, UnitOfWork>();
+            container.RegisterType<IUnitOfWork, UnitOfWork>(new PerThreadLifetimeManager());
             container.RegisterType<IUserRepository, UserRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IEventRepository, EventRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IOrderRepository, OrderRepository>(new HierarchicalLifetimeManager());

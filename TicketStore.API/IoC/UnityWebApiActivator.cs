@@ -15,7 +15,6 @@ namespace TicketStore.API.IoC
             // Use UnityHierarchicalDependencyResolver if you want to use a new child container for each IHttpController resolution.
             // var resolver = new UnityHierarchicalDependencyResolver(UnityConfig.GetConfiguredContainer());
             var resolver = new UnityHierarchicalDependencyResolver(UnityConfig.GetConfiguredContainer());
-
             GlobalConfiguration.Configuration.DependencyResolver = resolver;
         }
 
