@@ -237,10 +237,5 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
-# Web.Config
-TicketStore.API/Web.config
-TicketStore.API/Web.Release.config
-TicketStore.API/Web.Debug.config
-
 # Git user profile
 /C
