@@ -4,6 +4,7 @@ namespace TicketStore.Domain.Notifications
 {
     public interface INotificationService
     {
-        void SendPaymentStatus(Order order);
+        void SendPaymentReceived(Order order);
+        void SendPaymentReview(Order order);
     }
 }

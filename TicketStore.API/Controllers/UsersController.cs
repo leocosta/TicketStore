@@ -66,13 +66,16 @@ namespace TicketStore.API.Controllers
             return Request.CreateResponse(result);
         }
 
-        // OPTIONS api/users
-        public HttpResponseMessage Options()
+        // GET api/users/5/creditcards
+        [HttpGet]
+        public HttpResponseMessage CreditCards(int parentId)
         {
-            var response = new HttpResponseMessage();
-            response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            var user = _userRepository.Get(parentId);
+            if (user == null)
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "User not found.");
 
-            return response;
+            var result = Mapper.Map<IEnumerable<CreditCard>, IEnumerable<CreditCardViewModel>>(user.CreditCards);
+            return Request.CreateResponse(result);
         }
     }
 }

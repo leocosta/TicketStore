@@ -106,3 +106,29 @@ a.text-link:active {
 .cover p.text-inverse {
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 1);
 }
+
+
+/* credit card brands */
+div.brands {
+  background-repeat: no-repeat;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+}
+
+div.brands.visa {
+  background-image: url(../images/brands/visa-48px.png);
+}
+div.brands.mastercard {
+  background-image: url(../images/brands/mastercard-48px.png);
+}
+div.brands.hipercard {
+  background-image: url(../images/brands/hipercard-48px.png);
+}
+div.brands.amex {
+  background-image: url(../images/brands/amex-48px.png);
+}
+div.brands.diners {
+  background-image: url(../images/brands/diners-48px.png);
+}

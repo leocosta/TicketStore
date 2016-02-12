@@ -37,14 +37,5 @@ namespace TicketStore.API.Controllers
 
             return response;
         }
-
-        // OPTIONS api/access
-        public HttpResponseMessage Options()
-        {
-            var response = new HttpResponseMessage();
-            response.Headers.Add("Access-Control-Allow-Methods", "POST, OPTIONS");
-
-            return response;
-        }
     }
 }

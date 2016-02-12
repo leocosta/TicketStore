@@ -16,13 +16,27 @@ namespace TicketStore.Domain.Notifications
             _messageService = messageService;
         }
 
-        public void SendPaymentStatus(Order order)
+        public void SendPaymentReceived(Order order)
         {
             var to = order.Customer.Email;
-            var subject = "Seu pedido foi processado!";
-            var body = string.Format(@"Seu pedido foi processado em nossa loja e enconta-se na seguinte situação: {0}. \n\n
-                Atenciosamente,\n
-                Equipe TicketStore", order);
+            var subject = "Seu pedido foi autorizado!";
+            var body = string.Format(@"Seu pedido no. {0} foi processado em nossa loja e sua compra foi autorizada.
+
+                Atenciosamente,
+                Equipe TicketStore", order.OrderId);
+
+            _messageService.Send(to, subject, body);
+        }
+
+        public void SendPaymentReview(Order order)
+        {
+            var to = order.Customer.Email;
+            var subject = "Pagamento não autorizado!";
+            var body = string.Format(@"Seu pedido no. {0} foi processado em nossa loja, mas o pagamento não foi autorizado. Por favor, entre em contato com a 
+                operadora de seu cartão de crédito.
+
+                Atenciosamente,
+                Equipe TicketStore", order.OrderId);
 
             _messageService.Send(to, subject, body);
         }

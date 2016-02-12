@@ -2,43 +2,37 @@
   <div class="row">
     <form name="checkout.frmCheckout" role="form" ng-submit="checkout.purchase()" role="form" novalidate>
       <div class="col-md-6">
-        <h2>Selecione um de seus cartões de crédito</h2>
+        <h2 ng-if-start="checkout.creditCards.length">Selecione um de seus cartões de crédito</h2>
         <table class="table">
           <thead>
             <tr>
               <th>#</th>
-              <th>Seus cartões de crédito</th>
-              <th>Nome no cartão</th>
+              <th colspan="2">Cartão</th>
               <th>Vencimento</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
+            <tr ng-repeat="creditCard in checkout.creditCards">
+              <td><input name="creditCardId" type="radio" ng-model="checkout.order.paymentInfo.creditCardId" ng-value="creditCard.creditCardId"/></td>
+              <td>
+                <div class="brands" ng-class="creditCard.brand | lowercase"></div>
+              </td>
+              <td><strong>{{creditCard.brand}}</strong> <br><span class="text-muted">termina em {{creditCard.lastFourDigits}}</span></td>
+              <td>{{creditCard.expMonth}}/{{creditCard.expYear}}</td>
             </tr>
           </tbody>
         </table>
-        <h2>Ou informe outro cartão</h2>
+        <h2 ng-if-end>Ou informe outro cartão</h2>
+        <h2 ng-if="!checkout.creditCards.length">Informe os dados do cartão de crédito</h2>
         <div class="panel panel-default credit-card-box">
           <div class="panel-heading display-table">
-            <div class="row display-tr">
-              <div class="display-td">
-                <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+            <div class="row">
+              <div class="pull-right">
+                <div class="brands visa pull-left"></div>
+                <div class="brands mastercard pull-left"></div>
+                <div class="brands hipercard pull-left"></div>
+                <div class="brands amex pull-left"></div>
+                <div class="brands diners pull-left"></div>
               </div>
             </div>
           </div>
@@ -49,7 +43,7 @@
                     <label for="creiditCardNumber">Número do Cartão</label>
                     <div class="input-group" ng-class="{'has-error': checkout.frmCheckout.creditCardNumber.$invalid && checkout.frmCheckout.creditCardNumber.$dirty }">
                       <input type="text" class="form-control" name="creditCardNumber" placeholder="Número do Cartão"
-                      autocomplete="cc-number" ng-required="true" ng-model="checkout.order.paymentInfo.creditCardNumber" ng-blur="checkout.checkCreditCardNumber()">
+                      autocomplete="cc-number" ng-required="checkout.requiredFields()" ng-model="checkout.order.paymentInfo.creditCardNumber" ng-blur="checkout.checkCreditCardNumber()">
                       <span class="input-group-addon">
                         <i class="fa fa-credit-card"></i>
                       </span>
@@ -66,10 +60,10 @@
                     </label>
                     <div class="row">
                     <div class="col-xs-6 col-md-6" ng-class="{'has-error': checkout.frmCheckout.expMonth.$invalid && checkout.frmCheckout.expMonth.$dirty }">
-                      <input type="text" class="form-control" name="expMonth" placeholder="Mês" autocomplete="cc-exp" maxlength="2" ng-model="checkout.order.paymentInfo.expMonth" ng-required="true">
+                      <input type="text" class="form-control" name="expMonth" placeholder="Mês" autocomplete="cc-exp" maxlength="2" ng-model="checkout.order.paymentInfo.expMonth" ng-required="checkout.requiredFields()">
                     </div>
                     <div class="col-xs-6 col-md-6" ng-class="{'has-error': checkout.frmCheckout.expYear.$invalid && checkout.frmCheckout.expYear.$dirty }">
-                      <input type="text" class="form-control" name="expYear" placeholder="Ano" autocomplete="cc-exp" maxlength="4" ng-model="checkout.order.paymentInfo.expYear" ng-required="true">
+                      <input type="text" class="form-control" name="expYear" placeholder="Ano" autocomplete="cc-exp" maxlength="4" ng-model="checkout.order.paymentInfo.expYear" ng-required="checkout.requiredFields()">
                     </div>
                     </div>
                   </div>
@@ -78,7 +72,7 @@
                   <div class="form-group" ng-class="{'has-error': checkout.frmCheckout.securityCode.$invalid && checkout.frmCheckout.securityCode.$dirty }">
                     <label for="securityCode">Código de Segurança</label>
                     <input type="tel" class="form-control" name="securityCode"
-                    placeholder="CVC" maxlength="4" ng-model="checkout.order.paymentInfo.securityCode" ng-required="true">
+                    placeholder="CVC" maxlength="4" ng-model="checkout.order.paymentInfo.securityCode" ng-required="checkout.requiredFields()">
                   </div>
                 </div>
               </div>
@@ -86,7 +80,7 @@
                 <div class="col-xs-12">
                   <div class="form-group" ng-class="{'has-error': checkout.frmCheckout.holderName.$invalid && checkout.frmCheckout.holderName.$dirty }">
                     <label for="holderName">Titular do cartão</label>
-                    <input type="text" class="form-control" name="holderName" placeholder="Nome do Titular do Cartão" ng-model="checkout.order.paymentInfo.holderName" ng-required="true">
+                    <input type="text" class="form-control" name="holderName" placeholder="Nome do Titular do Cartão" ng-model="checkout.order.paymentInfo.holderName" ng-required="checkout.requiredFields()">
                   </div>
                 </div>
               </div>
@@ -94,7 +88,7 @@
                 <div class="col-xs-12">
                     <div class="checkbox">
                     <label>
-                      <input type="checkbox" ng-checked="checkout.order.paymentInfo.saveCreditCard" class="text-muted"> Salvar dados do pagamento para a próxima compra
+                      <input type="checkbox" ng-model="checkout.order.paymentInfo.saveCreditCard" class="text-muted"> Salvar dados do pagamento para a próxima compra
                     </label>
                   </div>
                 </div>
@@ -110,7 +104,7 @@
       <div class="col-md-6">
         <img ng-src="{{checkout.event.cardImageUrl}}" class="img-responsive">
           <h1 class="text-danger">{{checkout.event.name}}</h1>
-          <h3>{{checkout.event.startDate | date:'EEEE, MMMM d'}}</h3>
+          <h3>{{event.startDate | date:"EEEE, d 'de' MMMM"}}</h3>
           <p>{{checkout.event.description}}</p>
           <address>
             <strong>Endereço</strong><br>

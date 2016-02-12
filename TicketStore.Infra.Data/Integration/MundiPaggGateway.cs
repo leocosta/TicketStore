@@ -1,11 +1,14 @@
 ﻿using GatewayApiClient;
 using GatewayApiClient.DataContracts;
 using GatewayApiClient.DataContracts.EnumTypes;
+using GatewayApiClient.Utility;
 using System;
 using System.Linq;
 using System.Net;
 using System.Text;
 using TicketStore.Domain.Orders;
+using TicketStore.Infra.CrossCutting.Logging;
+using TicketStore.Infra.CrossCutting.Serialization;
 
 namespace TicketStore.Infra.Data.Integration
 {
@@ -15,8 +18,18 @@ namespace TicketStore.Infra.Data.Integration
 
         public PaymentResult CreateTransaction(PaymentInfo paymentInfo)
         {
-            var transaction = createCreditCardTransation(paymentInfo);
-            var httpResponse = _serviceClient.Sale.Create(transaction);
+            HttpResponse<CreateSaleResponse> httpResponse = null;
+            try
+            {
+                var transaction = createCreditCardTransation(paymentInfo);
+                Logger.Info($"GatewayServiceClient Request: {transaction.Serialize()}");
+                httpResponse = _serviceClient.Sale.Create(transaction);
+                Logger.Info($"GatewayServiceClient Response: {httpResponse.Serialize()}");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"GatewayServiceClient Error: {ex}");
+            }
 
             var createSaleResponse = httpResponse.Response;
             if (httpResponse.HttpStatusCode != HttpStatusCode.Created)

@@ -17,6 +17,10 @@ angular.module('ticketStoreAppApp')
       post: function(user){
         var uri = urlBuilder('users');
         return $http.post(uri, user);
+      },
+      getCreditCards: function(id){
+        var uri = urlBuilder('users/{{id}}/creditcards', id);
+        return $http.get(uri);
       }
     };
   });

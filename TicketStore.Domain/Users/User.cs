@@ -9,6 +9,7 @@ namespace TicketStore.Domain.Users
         public User()
         {
             CreateDate = DateTime.Now;
+            CreditCards = new List<CreditCard>();
         }
 
         public int UserId { get; set; }

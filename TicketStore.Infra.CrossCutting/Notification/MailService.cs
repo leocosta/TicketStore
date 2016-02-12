@@ -2,6 +2,7 @@
 using System;
 using System.Configuration;
 using System.Net.Mail;
+using TicketStore.Infra.CrossCutting.Logging;
 using TicketStore.Infra.CrossCutting.Notifications;
 
 namespace TicketStore.Infra.CrossCutting.Notification
@@ -21,7 +22,7 @@ namespace TicketStore.Infra.CrossCutting.Notification
 
             SendGridMessage message = new SendGridMessage();
             message.AddTo(to);
-            message.From = new MailAddress("leoccosta@outlook.com", "TicketStore.com");
+            message.From = new MailAddress(ConfigurationManager.AppSettings["MailService.Address"], ConfigurationManager.AppSettings["MailService.DisplayName"]);
             message.Subject = subject;
             message.Text = body;
 
@@ -30,9 +31,9 @@ namespace TicketStore.Infra.CrossCutting.Notification
             {
                 transportWeb.DeliverAsync(message);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //TODO: Log error
+                Logger.Error("MailService: {0}", ex.Message.ToString());
             }
         }
     }

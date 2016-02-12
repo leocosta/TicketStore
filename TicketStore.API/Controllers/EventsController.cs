@@ -34,14 +34,5 @@ namespace TicketStore.API.Controllers
             var result = Mapper.Map<Event, EventViewModel>(@event);
             return Request.CreateResponse(result);
         }
-
-        // OPTIONS api/events
-        public HttpResponseMessage Options()
-        {
-            var response = new HttpResponseMessage();
-            response.Headers.Add("Access-Control-Allow-Methods", "GET, OPTIONS");
-
-            return response;
-        }
     }
 }

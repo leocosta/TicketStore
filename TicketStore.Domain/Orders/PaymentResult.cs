@@ -12,6 +12,6 @@ namespace TicketStore.Domain.Orders
         }
 
         public string TransactionReference { get; set; }
-        public Guid InstantBuyKey { get; set; }
+        public Guid? InstantBuyKey { get; set; }
     }
 }

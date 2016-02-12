@@ -8,13 +8,22 @@
  * Controller of the ticketStoreAppApp
  */
 angular.module('ticketStoreAppApp')
-  .controller('CheckoutCtrl', function ($stateParams, $state, util, toaster, waitingDialog, session, EventService, OrderService) {
+  .controller('CheckoutCtrl', function ($stateParams, $state, $q, util, toaster, waitingDialog, session,
+    UserService, EventService, OrderService) {
+
     var that = this;
 
     this.loadEvent = function(){
       return EventService.get($stateParams.eventId)
         .then(function(response){
           that.event = response.data;
+        });
+    };
+
+    this.loadCreditCards = function(){
+      return UserService.getCreditCards(session.user.userId)
+        .then(function(response){
+          that.creditCards = response.data;
         });
     };
 
@@ -41,14 +50,25 @@ angular.module('ticketStoreAppApp')
     };
 
     this.checkCreditCardNumber = function(){
+      if (!that.order || !that.order.paymentInfo){
+        return;
+      }
+
       var number = that.order.paymentInfo.creditCardNumber;
       that.order.paymentInfo.creditCardBrand = util.detectCardType(number);
       that.frmCheckout.creditCardNumber.$invalid = !that.order.paymentInfo.creditCardBrand;
+      if (number){
+        that.order.paymentInfo.creditCardId = null;
+      }
+    };
+
+    this.requiredFields = function(){
+      return !(that.order && that.order.paymentInfo && that.order.paymentInfo.creditCardId);
     };
 
     this.init = function(){
       waitingDialog.show('Aguarde...');
-      this.loadEvent()
+      $q.all([this.loadEvent(), this.loadCreditCards()])
         .then()
         ['finally'](function(){
           waitingDialog.hide();
@@ -64,7 +84,7 @@ angular.module('ticketStoreAppApp')
         return false;
       }
 
-      if (!that.order.paymentInfo.creditCardBrand){
+      if (that.requiredFields() && !that.order.paymentInfo.creditCardBrand){
         toaster.pop('error', null, 'Você deve digitar o número de um cartão de crédito válido.');
         return false;
       }
@@ -72,5 +92,4 @@ angular.module('ticketStoreAppApp')
     };
 
     this.init();
-
   });

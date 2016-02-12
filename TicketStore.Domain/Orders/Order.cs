@@ -44,40 +44,26 @@ namespace TicketStore.Domain.Orders
         public DateTime? ModifyDate { get; set; }
         public virtual CreditCardTransation CreditCardTransation { get; set; }
 
-        public void ProcessPayment(PaymentInfo paymentInfo, IPaymentService paymentService, INotificationService notificationService, IUnitOfWork unitOfWork)
-        {
-            if (paymentInfo == null)
-                throw new ArgumentNullException("paymentInfo");
-
-            if (paymentService == null)
-                throw new ArgumentNullException("paymentService");
-
-            PaymentResult paymentResult = null;
-            try
-            {
-                this.Status = Status.Processing;
-                unitOfWork.Commit();
-
-                paymentInfo.Amount = (long)this.getAmount();
-                paymentResult = paymentService.CreateTransaction(paymentInfo);
-                this.Status = Status.PaymentReceived;
-            }
-            catch (Exception ex)
-            {
-                this.Status = Status.PaymentReview;
-                unitOfWork.Commit();
-                throw new InvalidOperationException(string.Format("We encountered an error processing your payment: {0}", ex.Message));
-            }
-
-            registerCreditCardTransation(paymentResult);
-            saveUserCreditCard(paymentInfo, paymentResult);
-
-            unitOfWork.Commit();
-            notificationService.SendPaymentStatus(this);
-        }
-        private decimal getAmount()
+        public decimal GetAmount()
         {
             return Price * Quantity;
+        }
+
+        public void Processing()
+        {
+            Status = Status.Processing;
+        }
+
+        public void PaymentReceived(PaymentResult paymentResult, PaymentInfo paymentInfo)
+        {
+            Status = Status.PaymentReceived;
+            registerCreditCardTransation(paymentResult);
+            saveUserCreditCard(paymentInfo, paymentResult);
+        }
+
+        public void PaymentReview()
+        {
+            Status = Status.PaymentReview;
         }
 
         private void registerCreditCardTransation(PaymentResult paymentResult)
@@ -87,27 +73,13 @@ namespace TicketStore.Domain.Orders
 
         private void saveUserCreditCard(PaymentInfo paymentInfo, PaymentResult paymentResult)
         {
-            if (!paymentInfo.SaveCreditCard || paymentInfo.InstantBuyKey != null)
+            if (!paymentInfo.ShouldSaveCreditCard() || !paymentResult.InstantBuyKey.HasValue)
                 return;
 
-            var creditCard = new CreditCard(this.Customer, paymentResult.InstantBuyKey,
+            var creditCard = new CreditCard(this.Customer, paymentResult.InstantBuyKey.Value,
                 paymentInfo.CreditCardBrand, paymentInfo.CreditCardNumber.GetLast(4), paymentInfo.ExpMonth, paymentInfo.ExpYear);
             this.Customer.AddCreditCard(creditCard);
         }
 
-        public override string ToString()
-        {
-            var status = new Dictionary<Status, string>()
-            {
-                { Status.Created, "Criado" },
-                { Status.Processing, "Processando" },
-                { Status.PaymentReview, "Em análise" },
-                { Status.PaymentReceived, "Pagamento recebido" },
-                { Status.Closed, "Finalizado" },
-                { Status.Cancelled, "Cancelado" },
-            };
-
-            return status[this.Status]; 
-        }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace TicketStore.API.ViewModel
@@ -24,6 +22,5 @@ namespace TicketStore.API.ViewModel
         public string Email { get; set; }
         [DataMember]
         public string Password { get; set; }
-        public List<CreditCardViewModel> CreditCards { get; set; }
     }
 }
