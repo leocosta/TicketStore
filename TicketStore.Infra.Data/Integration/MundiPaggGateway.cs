@@ -22,13 +22,13 @@ namespace TicketStore.Infra.Data.Integration
             try
             {
                 var transaction = createCreditCardTransation(paymentInfo);
-                Logger.Info($"GatewayServiceClient Request: {transaction.Serialize()}");
+                Logger.Info("GatewayServiceClient Request: {0}", transaction.Serialize());
                 httpResponse = _serviceClient.Sale.Create(transaction);
-                Logger.Info($"GatewayServiceClient Response: {httpResponse.Serialize()}");
+                Logger.Info("GatewayServiceClient Response: {0}", httpResponse.Serialize());
             }
             catch (Exception ex)
             {
-                Logger.Error($"GatewayServiceClient Error: {ex}");
+                Logger.Error("GatewayServiceClient Error: {0}", ex);
             }
 
             var createSaleResponse = httpResponse.Response;

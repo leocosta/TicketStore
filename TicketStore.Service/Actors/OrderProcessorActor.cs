@@ -91,7 +91,7 @@ namespace TicketStore.Service.Actors
             catch (Exception ex)
             {
                 order.PaymentReview();
-                Logger.Info($"processPaymentHandler: orderId: {order.OrderId}, Error: {ex.Message} {ex.InnerException.Message}");
+                Logger.Info("processPaymentHandler: orderId: {0}, Error: {1} {1}", order.OrderId, ex.Message, ex.InnerException.Message);
             }
             finally
             {
@@ -113,7 +113,7 @@ namespace TicketStore.Service.Actors
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to send email: {ex}");
+                Logger.Error("Failed to send email: {0}", ex);
             }
         }
     }
