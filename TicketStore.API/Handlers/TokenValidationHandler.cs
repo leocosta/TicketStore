@@ -23,7 +23,7 @@ namespace TicketStore.API.Handlers
             var action = request.GetRouteData().Values.ContainsKey("action") ? ((string)request.GetRouteData().Values["action"]).ToLower() : null;
             var method = request.Method.ToString().ToUpper();
 
-            var securityToken = GetToken(request);
+            var securityToken = GetToken(request);//
             try
             {
                 _authenticationService.ValidateAccess(securityToken, resource, action, method);
