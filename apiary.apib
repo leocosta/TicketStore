@@ -9,6 +9,47 @@ Queremos que você conheça uma nova forma de vender ingressos online.
 Você poderá integrar seu sistema com a plataforma TicketStore com total flexibilidade. 
 Veja a seguir a descrição dos principais recursos de nossa API:
 
+## Informações Gerais
+
+Este manual tem como objetivo descrever o funcionamento da API 
+aos desenvolvedores de sistemas de informática que desejam integrar outros 
+sistemas à nossa plataforma. Praticamente todas as operações realizadas através de
+nossa API, poderão ser feitas pelo nosso site. A grande vantagem é que o 
+desenvolvedor poderá montar sua própria interface e unir em tempo real 
+as informações de outros sistemas com as informações da nossa plataforma.
+
+Antes de acessar os métodos de criação de pedido, consulta de usuários ou 
+consulta de cartões de crédito do usuário, será necessária uma autenticação 
+que gerará um código (`SecurityToken`) que deverá ser passado no `header` 
+de cada solicitação.
+
+A nossa API interpreta a requisição e valida cada um dos campos enviados. 
+Quando houver algum campo com dado inválido, a API retornará 
+uma resposta contendo os campos inválidos e o motivo do erro.
+
+## HTTP Response Codes
+
+A nossa API valida os diversos campos enviados na requisição (request) 
+antes de prosseguir com a consulta de eventos, criação de usuários ou 
+criação de pedidos. Utilizamos os códigos HTTP convencionados pela W3C 
+para resposta das requisições, conforme tabela abaixo:
+
+|Código  | Nome                     | Descrição                                                             |
+|--------|--------------------------|-----------------------------------------------------------------------|
+| 200    |`OK`                      | Sucesso                                                               |                                       
+| 201    |`Created`                 | Criado                                                                |
+| 400    |`Bad Request`             | Requisição inválida (campos requeridos ou informados incorretamente   |
+| 401    |`Unauthorized`            | Acesso ao recurso não autorizado                                      |
+| 404    |`Not Found`               | Recurso acessado não foi encontrado                                   |
+| 405    |`Method Not Allowed`      | Método não permitido                                                  |
+| 500    |`Internal Server Error`   | Erro interno em nosso servidor                                        |
+
+
+## É hora de integrar!
+
+Agora que já conhece melhor o modelo de nossa API, você já pode iniciar o 
+desenvolvimento de sua aplicação.
+
 # Group Acesso
 
 Recurso para geração da chave de acesso (`SecurityToken`) aos recursos protegidos da API.
