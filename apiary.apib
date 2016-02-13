@@ -13,7 +13,7 @@ Veja a seguir a descrição dos principais recursos de nossa API:
 
 Recurso para manutenção de Usuários.
 
-## Usuários [/users]
+## Novo Usuário [/users]
 
 Permite a criação de usuários.
 
@@ -78,11 +78,11 @@ Permite a criação de usuários.
                 "email": "jose@email.com"
             }
 
-## Usuários existentes [/users/{id}]
+## Usuário específico [/users/{id}]
 
 Operações que podem ser efetuadas com Usuários existentes.
 
-### Seleção de Usuário [GET]
+### Seleção de Usuário específico [GET]
 
 + Parameters
     + id (required, number, `1`) de um Usuário
@@ -120,9 +120,9 @@ Operações que podem ser efetuadas com Usuários existentes.
 
 ## Cartões de Crédito do Usuário [/users/{id}/creditcards]
 
-Seleção de cartões de crédito salvos pelo Usuário.
+Seleção de cartões de crédito do Usuário.
 
-### Seleção de Cartões de Crédito [GET]
+### Seleção de Cartões de Crédito do Usuário [GET]
 
 + Parameters
     + id (required, number, `1`)
@@ -155,7 +155,7 @@ Seleção de cartões de crédito salvos pelo Usuário.
 
 Recurso para manutenção de Eventos.
 
-## Events [/events]
+## Todos os Eventos [/events]
 
 Permite a seleção de Eventos.
 
@@ -179,7 +179,7 @@ Permite a seleção de Eventos.
 | `location.state`  | Estado do Evento                              |
 | `location.zipCode`| CEP do Evento                                 |
 
-### Seleção de todos Eventos [GET]
+### Seleção de todos os Eventos [GET]
 
 + Request (application/json)
 
@@ -211,11 +211,11 @@ Permite a seleção de Eventos.
                 }
             ]
 
-## Eventos existentes [/events/{id}]
+## Evento específico [/events/{id}]
 
 Operações que podem ser efetuadas com Eventos existentes.
 
-### Seleção de Evento [GET]
+### Seleção de Evento específico [GET]
 
 + Parameters
     + id (required, number, `1`)... `id` de um evento
@@ -248,7 +248,7 @@ Operações que podem ser efetuadas com Eventos existentes.
 
 Recurso para manutenção de Pedidos.
 
-## Orders [/orders]
+## Novo Pedido [/orders]
 
 Permite a criação de Pedidos.
 
@@ -385,502 +385,3 @@ compras anteriores.
               "status": "Created",
               "quantity": 2
             }
-
-## Existing Courses [/courses/{id}]
-
-Operations that can be performed on Courses that already exist.
-
-### Select a specific Course [GET]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd799439011`)
-
-+ Request
-
-    + Header
-            
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-            
-+ Response 200 (application/json)
-
-    + Header
-    
-            cache-control: max-age=600, s-maxage=1200
-            
-    + Body
-    
-            {
-                "id" : "507f1f77bcf86cd799439011",
-                "courseName" : "Entree",
-                "description" : "A small course served before a larger one."
-            }
-
-### Update a specific Course [PUT]
-
-+ Parameters
-    + id (required, string, `517f1f77bcf86cd733539111`)... `id` of a course
-
-+ Request
-
-    + Header
-        
-             Authorization: Basic dXNlcjpwYXNzd29yZA==
-             x-api-version: 1.0
-             Content-type: application/json
-             
-    + Body
-    
-            {
-                "courseName" : "Entremet",
-                "description" : "In modern French cuisine, it is a small dish served between courses."
-            }
-
-+ Response 200
-
-### Delete a specific Course [DELETE]
-
-+ Parameters
-    + id (required, string, `517f1f77bcf86cd733539111`)... `id` of a course
-
-+ Request
-
-    + Header
-        
-             Authorization: Basic dXNlcjpwYXNzd29yZA==
-
-+ Response 204
-
-# Group Cuisines
-
-Cuisines allows selection and addition of cuisines who are responsible for creating entered recipes.
-
-## Cuisine Fields
-
-| Name              | Description                                   |
-|-------------------|-----------------------------------------------|
-| `id`              | Automatically assigned                        |
-| `cuisineName`     | Name of the Cuisine                           |
-| `description`     | Description of the Cuisine                    |
-
-## Cuisines Collection [/cuisines]
-
-Operations that select all Cuisines or add a new Cuisine.
-
-### Retrieve all Cuisines [GET]
-
-+ Request
-
-    + Header
-    
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-
-+ Response 200 (application/json)
-
-    + Header
-        
-            cache-control: max-age=600, s-maxage=1200
-    
-    + Body
-    
-            {
-                "cuisines" :
-                [
-                    {
-                        "id" : "507f1f77bcf86cd799439011",
-                        "cuisineName" : "French",
-                        "description" : "Classic, rich recipes from across France."
-                    },
-                    {
-                        "id" : "507f1f43bcf86ce099439081",
-                        "cuisineName" : "Japanese",
-                        "description" : "Clean and delicate flavours are the hallmark of Japanese cooking."
-                    },
-                    {
-                        "id" : "517f1f77bcf86cd733539090",
-                        "cuisineName" : "Modern Australian",
-                        "description" : "A fusion of cuisines utilising fresh produce Australia is renowned for."
-                    }
-                ]
-            }
-
-### Add a new Cuisine [POST]
-
-+ Request (application/json)
-
-    + Header
-    
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-    
-    + Body
-
-            {
-                "cuisineName" : "Italian",
-                "description" : "Characterised by simple recipes which respect fresh produce."
-            }
-
-+ Response 201 (application/json)
-
-    + Header
-
-            Location: cuisines/517f1f77bcf86cd733539111
-
-## Existing Cuisines [/cuisines/{id}]
-
-Operations that can be performed on Cuisines that already exist.
-
-### Select a specific Cuisine [GET]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd799439011`)
-
-+ Request
-
-    + Header
-            
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-            
-+ Response 200 (application/json)
-
-    + Header
-    
-            cache-control: max-age=600, s-maxage=1200
-            
-    + Body
-    
-            {
-                "id" : "507f1f77bcf86cd799439011",
-                "cuisineName" : "French",
-                "description" : "Classic, rich recipes from across France."
-            },
-
-### Update a specific Cuisine [PUT]
-
-+ Parameters
-    + id (required, string, `abc123`)... `id` of a cuisine
-
-+ Request
-
-    + Header
-        
-             Authorization: Basic dXNlcjpwYXNzd29yZA==
-             x-api-version: 1.0
-             Content-type: application/json
-             
-    + Body
-    
-            {
-                "cuisineName" : "Italian",
-                "description" : "Characterised by simple recipes, often with few ingredients, which respect fresh produce."
-            }
-
-+ Response 200
-
-### Delete a specific Cuisine [DELETE]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd799439011`)... `id` of a cuisine
-
-+ Request
-
-    + Header
-        
-             Authorization: Basic dXNlcjpwYXNzd29yZA==
-
-+ Response 204
-
-# Group Ingredient Categories
-
-Ingredient Categories allows selection and addition of ingredient-categories who are responsible for creating entered recipes.
-
-## Ingredient Categories Fields
-
-| Name              | Description                                   |
-|-------------------|-----------------------------------------------|
-| `id`              | Automatically assigned                        |
-| `categoryName`    | Name of the Ingredient Category               |
-| `description`     | Description of the Ingredient Category        |
-
-## Ingredient Categories Collection [/ingredient-categories]
-
-Operations that select all Ingredient Categories or add a new Ingredient Categories.
-
-### Retrieve all Ingredient Categories [GET]
-
-+ Request
-
-    + Header
-    
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-
-+ Response 200 (application/json)
-
-    + Header
-        
-            cache-control: max-age=600, s-maxage=1200
-    
-    + Body
-    
-            {
-                "ingredient-categories" :
-                [
-                    {
-                        "id" : "507f1f77bcf86cd799444519",
-                        "categoryName" : "Spices",
-                        "description" : "A seed, fruit, root, bark, berry, bud or vegetable primarily used for flavouring, colouring and/or preserving food"
-                    },
-                    {
-                        "id" : "507f1f77bcf86cd794510021",
-                        "categoryName" : "Fruits & Vegetables",
-                        "description" : "Sweet or savoury ingredients derived from plants."
-                    },
-                    {
-                        "id" : "507f1f77bcf86cd799438842",
-                        "categoryName" : "Meat",
-                        "description" : "Animal flesh eaten as a food."
-                    }
-                ]
-            }
-
-### Add a new Ingredient Category [POST]
-
-+ Request (application/json)
-
-    + Header
-    
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-    
-    + Body
-
-            {
-                "id" : "507f1f77bcf86cd79969271",
-                "categoryName" : "Herbs",
-                "description" : "Plants used for flavouring, adding textuire and/or adding fragrance to food."
-            }
-
-+ Response 201 (application/json)
-
-    + Header
-
-            Location: ingredient-categories/507f1f77bcf86cd79444120
-
-## Existing Ingredient Categories [/ingredient-categories/{id}]
-
-Operations that can be performed on Ingredient Categories that already exist.
-
-### Select a specific Ingredient Category [GET]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd79969271`)
-
-+ Request
-
-    + Header
-            
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-            
-+ Response 200 (application/json)
-
-    + Header
-    
-            cache-control: max-age=600, s-maxage=1200
-            
-    + Body
-    
-            {
-                "id" : "507f1f77bcf86cd79969271",
-                "categoryName" : "Meat",
-                "description" : "Animal flesh eaten as a food."
-            }
-
-### Update a specific Ingredient Category [PUT]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd79444120`)... `id` of a ingredient categories
-
-+ Request
-
-    + Header
-        
-             Authorization: Basic dXNlcjpwYXNzd29yZA==
-             x-api-version: 1.0
-             Content-type: application/json
-             
-    + Body
-    
-            {
-               "categoryName" : "Meat",
-                "description" : "Animal flesh that is eaten as a food."
-            }
-
-+ Response 200
-
-### Delete a specific Ingredient Category [DELETE]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd79444120`)... `id` of a ingredient categories
-
-+ Request
-
-    + Header
-        
-             Authorization: Basic dXNlcjpwYXNzd29yZA==
-
-+ Response 204
-
-# Group Ingredients
-
-Ingredients allows selection and addition of ingredients who are responsible for creating entered recipes.
-
-## Ingredients Fields
-
-| Name              | Description                                   |
-|-------------------|-----------------------------------------------|
-| `id`              | Automatically assigned                        |
-| `ingredientName`  | Name of the Ingredient                        |
-| `description`     | Description of the Ingredient                 |
-| `categoryName`    | Category the Ingredient belongs to            |
-
-## Ingredients Collection [/ingredients]
-
-Operations that select all Ingredients or add a new Ingredients.
-
-### Retrieve all Ingredients [GET]
-
-+ Request
-
-    + Header
-    
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-
-+ Response 200 (application/json)
-
-    + Header
-        
-            cache-control: max-age=600, s-maxage=1200
-    
-    + Body
-    
-            {
-                "ingredients" :
-                [
-                    {
-                        "id" : "507f1f77bcf86cd799444519",
-                        "ingredientName" : "Banana",
-                        "description" : "Sweet, yellow fruit of a the bana palm.",
-                        "categoryName" : "Fruits & Vegetables"
-                    },
-                    {
-                        "id" : "507f1f77bcf86cd794510021",
-                        "ingredientName" : "Lamb Shoulder",
-                        "description" : "The upper foreleg portion of a lamb.",
-                        "categoryName" : "Meat"
-                    },
-                    {
-                        "id" : "507f1f77bcf86cd799438842",
-                        "ingredientName" : "Coriander",
-                        "description" : "A fragrant, leafy plant used extensively in Asian cooking.",
-                        "categoryName" : "Herbs"
-                    }
-                ]
-            }
-
-### Add a new Ingredient [POST]
-
-+ Request (application/json)
-
-    + Header
-    
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-    
-    + Body
-
-            {
-                "id" : "507f1f77bcf86cd79969271",
-                "ingredientName" : "Cumin",
-                "description" : "Ground seeds of the cumin plant.",
-                "categoryName" : "Spices"
-            }
-
-+ Response 201 (application/json)
-
-    + Header
-
-            Location: ingredients/507f1f77bcf86cd79444120
-
-## Existing Ingredients [/ingredients/{id}]
-
-Operations that can be performed on Ingredients that already exist.
-
-### Select a specific Ingredient [GET]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd79969271`)
-
-+ Request
-
-    + Header
-            
-            Authorization: Basic dXNlcjpwYXNzd29yZA==
-            x-api-version: 1.0
-            
-+ Response 200 (application/json)
-
-    + Header
-    
-            cache-control: max-age=600, s-maxage=1200
-            
-    + Body
-    
-            {
-                "id" : "507f1f77bcf86cd799438842",
-                "ingredientName" : "Coriander",
-                "description" : "A fragrant, leafy plant used extensively in Asian cooking.",
-                "categoryName" : "Herbs"
-            }
-
-### Update a specific Ingredient [PUT]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd79444120`)... `id` of an ingredient
-
-+ Request
-
-    + Header
-        
-             Authorization: Basic dXNlcjpwYXNzd29yZA==
-             x-api-version: 1.0
-             Content-type: application/json
-             
-    + Body
-    
-            {
-                "id" : "507f1f77bcf86cd799438842",
-                "ingredientName" : "Coriander",
-                "description" : "A fragrant, small, leafy plant used extensively in Asian cooking.",
-                "categoryName" : "Herbs"
-            }
-
-+ Response 200
-
-### Delete a specific Ingredient [DELETE]
-
-+ Parameters
-    + id (required, string, `507f1f77bcf86cd79444120`)... `id` of an ingredient
-
-+ Request
-
-    + Header
-        
-             Authorization: Basic dXNlcjpwYXNzd29yZA==
-             x-api-version: 1.0
-             
-+ Response 204
