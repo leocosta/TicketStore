@@ -205,6 +205,7 @@
     <Compile Include="ViewModel\CreditCardViewModel.cs" />
     <Compile Include="ViewModel\EventViewModel.cs" />
     <Compile Include="ViewModel\PaymentInfoViewModel.cs" />
+    <Compile Include="ViewModel\ValidUserViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\OrderViewModel.cs" />
   </ItemGroup>

@@ -8,7 +8,7 @@ using System.Web.Http;
 using TicketStore.API.Filters;
 using TicketStore.API.ViewModel;
 using TicketStore.Domain.Orders;
-using TicketStore.Service.Commands;
+using TicketStore.Service.Messages;
 
 namespace TicketStore.API.Controllers
 {
@@ -21,18 +21,14 @@ namespace TicketStore.API.Controllers
             if (orderViewModel == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid request.");
 
-            try
-            {
-                var paymentInfo = Mapper.Map<PaymentInfoViewModel, PaymentInfo>(orderViewModel.PaymentInfo);
-                var placeOrder = new PlaceOrder(orderViewModel.Customer.UserId.Value, orderViewModel.Event.EventId.Value, orderViewModel.Quantity, paymentInfo);
-                var order = await WebApiApplication.OrderProcessorActor.Ask<Order>(placeOrder);
-                var result = Mapper.Map<Order, OrderViewModel>(order);
-                return Request.CreateResponse(HttpStatusCode.Created, result);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
-            }
+            var paymentInfo = Mapper.Map<PaymentInfoViewModel, PaymentInfo>(orderViewModel.PaymentInfo);
+            var placeOrder = new PlaceOrder(orderViewModel.Customer.UserId.Value, orderViewModel.Event.EventId.Value, orderViewModel.Quantity, paymentInfo);
+            var orderPlaced = await WebApiApplication.OrderProcessorActor.Ask(placeOrder);
+            if (orderPlaced is InvalidOperationException)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ((InvalidOperationException)orderPlaced).Message);
+
+            var result = Mapper.Map<Order, OrderViewModel>(orderPlaced as Order);
+            return Request.CreateResponse(HttpStatusCode.Created, result);
         }
     }
 }

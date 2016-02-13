@@ -1,4 +1,4 @@
-﻿namespace TicketStore.Service.Events
+﻿namespace TicketStore.Service.Messages
 {
     internal class PaymentProcessed
     {

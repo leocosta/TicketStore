@@ -34,14 +34,12 @@ namespace TicketStore.API.Controllers
 
         // POST api/users
         [ModelValidate]
-        public HttpResponseMessage Post(UserViewModel userViewModel)
+        public HttpResponseMessage Post(ValidUserViewModel userViewModel)
         {
             if (userViewModel == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid User.");
 
             var user = Mapper.Map<UserViewModel, User>(userViewModel);
-            //TODO: User validation
-
             try
             {
                 user.Validate(_userRepository);

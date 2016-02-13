@@ -1,6 +1,6 @@
 ﻿using TicketStore.Domain.Orders;
 
-namespace TicketStore.Service.Commands
+namespace TicketStore.Service.Messages
 {
     public class PlaceOrder
     {

@@ -50,10 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actors\OrderProcessorActor.cs" />
-    <Compile Include="Commands\PlaceOrder.cs" />
-    <Compile Include="Commands\ProcessPayment.cs" />
-    <Compile Include="Events\OrderPlaced.cs" />
-    <Compile Include="Events\PaymentProcessed.cs" />
+    <Compile Include="Messages\PlaceOrder.cs" />
+    <Compile Include="Messages\ProcessPayment.cs" />
+    <Compile Include="Messages\OrderPlaced.cs" />
+    <Compile Include="Messages\PaymentProcessed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

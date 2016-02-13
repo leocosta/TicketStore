@@ -17,7 +17,7 @@ namespace TicketStore.API.ViewModel
         [DataMember]
         public AddressViewModel Address { get; set; }
         [DataMember]
-        public DateTime Birthdate { get; set; }
+        public DateTime? Birthdate { get; set; }
         [DataMember()]
         public string Email { get; set; }
         [DataMember]

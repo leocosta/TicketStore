@@ -7,8 +7,7 @@ using TicketStore.Domain.Notifications;
 using TicketStore.Domain.Orders;
 using TicketStore.Domain.Users;
 using TicketStore.Infra.CrossCutting.Logging;
-using TicketStore.Service.Commands;
-using TicketStore.Service.Events;
+using TicketStore.Service.Messages;
 
 namespace TicketStore.Service.Actors
 {
@@ -117,6 +116,10 @@ namespace TicketStore.Service.Actors
             {
                 Logger.Error("Failed to send email: {0}", ex);
             }
+        }
+        protected override void PreRestart(Exception reason, object message)
+        {
+            Sender.Tell(reason);
         }
     }
 }

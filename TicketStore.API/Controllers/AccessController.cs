@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TicketStore.API.Filters;
 using TicketStore.API.ViewModel;
 using TicketStore.Domain.Users;
 
@@ -17,6 +18,7 @@ namespace TicketStore.API.Controllers
         
         // POST api/access
         [HttpPost]
+        [ModelValidate]
         public HttpResponseMessage Authenticate(CredentialsViewModel credentials)
         {
             if (credentials == null)

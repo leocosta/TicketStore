@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace TicketStore.API.ViewModel
 {
     [DataContract]
-    public class OrderViewModel: IValidatableObject
+    public class OrderViewModel : IValidatableObject
     {
         [DataMember]
         public int? OrderId { get; set; }

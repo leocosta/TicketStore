@@ -1,13 +1,13 @@
 ﻿using TicketStore.Domain.Orders;
 
-namespace TicketStore.Service.Events
+namespace TicketStore.Service.Messages
 {
-    internal class OrderPlaced
+    internal class ProcessPayment
     {
         public int OrderId { get; private set; }
         public PaymentInfo PaymentInfo { get; private set; }
 
-        public OrderPlaced(int orderId, PaymentInfo paymentInfo)
+        public ProcessPayment(int orderId, PaymentInfo paymentInfo)
         {
             OrderId = orderId;
             PaymentInfo = paymentInfo;
