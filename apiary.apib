@@ -1,0 +1,886 @@
+FORMAT: 1A
+HOST: http://ticketstore.apphb.com/api/
+
+# TicketStore
+
+Bem-vindo,
+
+Queremos que você conheça uma nova forma de vender ingressos online.
+Você poderá integrar seu sistema com a plataforma TicketStore com total flexibilidade. 
+Veja a seguir a descrição dos principais recursos de nossa API:
+
+# Group Users
+
+Recurso para manutenção de Usuários.
+
+## Usuários [/users]
+
+Permite a criação de usuários.
+
+## Campos do Usuário
+
+| Nome              | Descrição                                     |
+|-------------------|-----------------------------------------------|
+| `userId`          | Identificador do Usuário                      |
+| `name`            | Nome completo do Usuário                      |
+| `ssn`             | CPF do Usuário                                |
+| `gender`          | Sexo do Usuário                               |
+| `birthdate`       | Data de Nascimento do Usuário                 |
+| `email`           | E-mail do Usuário                             |
+| `password`        | Senha do Usuário                              |
+| `address.line1`   | Endereço do Usuário                           |
+| `address.line2`   | Complemento do endereço do Usuário            |
+| `address.number`  | Número do endereço do Usuário                 |
+| `address.state`   | Estado do Usuário                             |
+| `address.zipCode` | CEP do Usuário                                |
+
+### Criação de Usuário [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "name": "José da Silva",
+                "ssn": "12345678900",
+                "gender": "Male",
+                "address": {
+                    "line1": "Rua das Flores",
+                    "line2": "Apt. 25",
+                    "number": "123",
+                    "state": "RJ",
+                    "city": "Rio de Janeiro",
+                    "zipCode": "22123123"
+                },
+                "birthdate": "1981-04-21T00:00:00",
+                "email": "jose@email.com",
+                "password": "abc123",
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "userId": 1,
+                "name": "José da Silva",
+                "ssn": "12345678900",
+                "gender": "Male",
+                "address": {
+                    "line1": "Rua das Flores",
+                    "line2": "Apt. 25",
+                    "number": "123",
+                    "state": "RJ",
+                    "city": "Rio de Janeiro",
+                    "zipCode": "22123123"
+                },
+                "birthdate": "1981-04-21T00:00:00",
+                "email": "jose@email.com"
+            }
+
+## Usuários existentes [/users/{id}]
+
+Operações que podem ser efetuadas com Usuários existentes.
+
+### Seleção de Usuário [GET]
+
++ Parameters
+    + id (required, number, `1`) de um Usuário
+
++ Request
+
+    + Header
+            
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
++ Response 200 (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+            
+    + Body
+    
+            {
+                "userId": 1,
+                "name": "José da Silva",
+                "ssn": "12345678900",
+                "gender": "Male",
+                "address": {
+                    "line1": "Rua das Flores",
+                    "line2": "Apt. 25",
+                    "number": "123",
+                    "state": "RJ",
+                    "city": "Rio de Janeiro",
+                    "zipCode": "22123123"
+                },
+                "birthdate": "1981-04-21T00:00:00",
+                "email": "jose@email.com"
+            }
+
+## Cartões de Crédito do Usuário [/users/{id}/creditcards]
+
+Seleção de cartões de crédito salvos pelo Usuário.
+
+### Seleção de Cartões de Crédito [GET]
+
++ Parameters
+    + id (required, number, `1`)
+
++ Request
+
+    + Header
+            
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
++ Response 200 (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+            
+    + Body
+    
+            [
+                {
+                    "creditCardId": 1,
+                    "brand": "Visa",
+                    "lastFourDigits": "1111",
+                    "expMonth": 10,
+                    "expYear": 2018
+                }
+            ]
+
+# Group Events
+
+Recurso para manutenção de Eventos.
+
+## Events [/events]
+
+Permite a seleção de Eventos.
+
+## Campos do Evento
+
+| Nome              | Descrição                                     |
+|-------------------|-----------------------------------------------|
+| `eventId`         | Identificador do Evento                       |
+| `name`            | Nome completo do Evento                       |
+| `description`     | Descrição do Evento                           |
+| `price`           | Preço do Evento                               |
+| `startDate`       | Data de Início do Evento                      |
+| `endDate`         | Data de Término do Evento                     |
+| `cardImageUrl`    | Imagem da chamada do Evento                   |
+| `birthdate`       | Data de Nascimento do Evento                  |
+| `email`           | E-mail do Evento                              |
+| `password`        | Senha do Evento                               |
+| `location.line1`  | Endereço do Evento                            |
+| `location.line2`  | Complemento da localização do Evento          |
+| `location.number` | Número da localização do Evento               |
+| `location.state`  | Estado do Evento                              |
+| `location.zipCode`| CEP do Evento                                 |
+
+### Seleção de todos Eventos [GET]
+
++ Request (application/json)
+
+    + Header
+
++ Response 200 (application/json)
+
+    + Header
+
+    + Body
+    
+            [
+                {
+                    "eventId": 1,
+                    "name": "Aprenda a Investir na Bolsa",
+                    "description": "Neste curso passamos 10 ou 12 horas mostrando o ferramental dos mercados de renda variável, \r\n                                falamos sobre as bolsas de valores, sobre ações, opções, mercados futuros e fazemos uma introdução \r\n                                às duas escolas de análises: técnica e fundamentalista.",
+                    "location": {
+                        "line1": "Av. das Américas",
+                        "line2": "Bloco 21, Sala 248 - Barra da Tijuca - Shopping Downtown",
+                        "number": "500",
+                        "state": "RJ",
+                        "city": "Rio de Janeiro",
+                        "zipCode": "22115456"
+                    },
+                    "price": 150,
+                    "startDate": "2016-03-05T09:00:00",
+                    "endDate": "2016-03-10T17:00:00",
+                    "cardImageUrl": "http://ww2.baguete.com.br/admin//cache/sites/default/files/multimedia/imagens/noticia/92094-stock-market-rebounds-worst-day-year-read-more-http-business-time-com20130416stock-market-rebounds-w.jpg"
+                }
+            ]
+
+## Eventos existentes [/events/{id}]
+
+Operações que podem ser efetuadas com Eventos existentes.
+
+### Seleção de Evento [GET]
+
++ Parameters
+    + id (required, number, `1`)... `id` de um evento
+
++ Response 200 (application/json)
+
+    + Header
+
+    + Body
+    
+            {
+                "eventId": 1,
+                "name": "Aprenda a Investir na Bolsa",
+                "description": "Neste curso passamos 10 ou 12 horas mostrando o ferramental dos mercados de renda variável, \r\n                                falamos sobre as bolsas de valores, sobre ações, opções, mercados futuros e fazemos uma introdução \r\n                                às duas escolas de análises: técnica e fundamentalista.",
+                "location": {
+                    "line1": "Av. das Américas",
+                    "line2": "Bloco 21, Sala 248 - Barra da Tijuca - Shopping Downtown",
+                    "number": "500",
+                    "state": "RJ",
+                    "city": "Rio de Janeiro",
+                    "zipCode": "22115456"
+                },
+                "price": 150,
+                "startDate": "2016-03-05T09:00:00",
+                "endDate": "2016-03-10T17:00:00",
+                "cardImageUrl": "http://ww2.baguete.com.br/admin//cache/sites/default/files/multimedia/imagens/noticia/92094-stock-market-rebounds-worst-day-year-read-more-http-business-time-com20130416stock-market-rebounds-w.jpg"
+            }
+
+# Group Orders
+
+Recurso para manutenção de Pedidos.
+
+## Orders [/orders]
+
+Permite a criação de Pedidos.
+
+> O formato da requisição pode ser de duas formas. Uma pode ser feita enviando 
+os dados de um novo cartão de crédito. A outra opção é enviando apenas o 
+identificador do cartão de crédito (`creditCardId`) do Usuário salvo em 
+compras anteriores.
+
+## Campos do Pedido
+
+| Nome                              | Descrição                                                 |
+|-----------------------------------|-----------------------------------------------------------|
+| `eventId`                         | Identificador do Pedido                                   |
+| `customer.userId`                 | Identificador do Comprador                                |
+| `event.eventId`                   | Identificador do Evento                                   |
+| `quantity`                        | Quantidade de ingressos para o Evento                     |
+| `paymentInfo.creditCardNumber`    | Número do cartão de crédito                               |
+| `paymentInfo.creditCardBrand`     | Bandeira do cartão de crédito                             |
+| `paymentInfo.expMonth`            | Mês de validade do cartão de crédito                      |
+| `paymentInfo.expYear`             | Ano de validade do cartão de crédito                      |
+| `paymentInfo.securityCode`        | Código de segurança do cartão de crédito                  |
+| `paymentInfo.holderName`          | Nome do portador do cartão de crédito                     |
+| `paymentInfo.saveCreditCard`      | Opção para armazenar identificador do cartão de crédito   |
+| `paymentInfo.creditCardId`        | Identificador do cartão de crédito já salvo               |
+
+### Criação de Pedido [POST]
+
++ Request com novo cartão de crédito (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
+    + Body
+
+            {
+                customer: {
+                    userId: 26
+                },
+                event: {
+                    eventId: 1
+                },
+                quantity: 2,
+                paymentInfo: {
+                    creditCardNumber: "4111111111111111",
+                    creditCardBrand: "Visa",
+                    expMonth: 10,
+                    expYear: 2018,
+                    securityCode: 123,
+                    holderName: "José da Silva",
+                    saveCreditCard: true
+                }
+            }
+
++ Response 201 (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
+    + Body
+
+            {
+              "orderId": 1,
+              "event": {
+                "eventId": 1,
+                "name": "Aprenda a Investir na Bolsa",
+                "description": "Neste curso passamos 10 ou 12 horas mostrando o ferramental dos mercados de renda variável, \r\n                                falamos sobre as bolsas de valores, sobre ações, opções, mercados futuros e fazemos uma introdução \r\n                                às duas escolas de análises: técnica e fundamentalista.",
+                "location": {
+                  "line1": "Av. das Américas",
+                  "line2": "Bloco 21, Sala 248 - Barra da Tijuca - Shopping Downtown",
+                  "number": "500",
+                  "state": "RJ",
+                  "city": "Rio de Janeiro",
+                  "zipCode": "22115456"
+                },
+                "price": 150.00,
+                "startDate": "2016-03-05T09:00:00",
+                "endDate": "2016-03-10T17:00:00",
+                "cardImageUrl": "http://ww2.baguete.com.br/admin//cache/sites/default/files/multimedia/imagens/noticia/92094-stock-market-rebounds-worst-day-year-read-more-http-business-time-com20130416stock-market-rebounds-w.jpg"
+              },
+              "status": "Created",
+              "quantity": 2
+            }
+
++ Request com cartão de crédito salvo (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
+    + Body
+
+            {
+                customer: {
+                    userId: 26
+                },
+                event: {
+                    eventId: 1
+                },
+                quantity: 2,
+                paymentInfo: {
+                    creditCardId: 1
+                }
+            }
+
++ Response 201 (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
+    + Body
+
+            {
+              "orderId": 1,
+              "event": {
+                "eventId": 1,
+                "name": "Aprenda a Investir na Bolsa",
+                "description": "Neste curso passamos 10 ou 12 horas mostrando o ferramental dos mercados de renda variável, \r\n                                falamos sobre as bolsas de valores, sobre ações, opções, mercados futuros e fazemos uma introdução \r\n                                às duas escolas de análises: técnica e fundamentalista.",
+                "location": {
+                  "line1": "Av. das Américas",
+                  "line2": "Bloco 21, Sala 248 - Barra da Tijuca - Shopping Downtown",
+                  "number": "500",
+                  "state": "RJ",
+                  "city": "Rio de Janeiro",
+                  "zipCode": "22115456"
+                },
+                "price": 150.00,
+                "startDate": "2016-03-05T09:00:00",
+                "endDate": "2016-03-10T17:00:00",
+                "cardImageUrl": "http://ww2.baguete.com.br/admin//cache/sites/default/files/multimedia/imagens/noticia/92094-stock-market-rebounds-worst-day-year-read-more-http-business-time-com20130416stock-market-rebounds-w.jpg"
+              },
+              "status": "Created",
+              "quantity": 2
+            }
+
+## Existing Courses [/courses/{id}]
+
+Operations that can be performed on Courses that already exist.
+
+### Select a specific Course [GET]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd799439011`)
+
++ Request
+
+    + Header
+            
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+            
++ Response 200 (application/json)
+
+    + Header
+    
+            cache-control: max-age=600, s-maxage=1200
+            
+    + Body
+    
+            {
+                "id" : "507f1f77bcf86cd799439011",
+                "courseName" : "Entree",
+                "description" : "A small course served before a larger one."
+            }
+
+### Update a specific Course [PUT]
+
++ Parameters
+    + id (required, string, `517f1f77bcf86cd733539111`)... `id` of a course
+
++ Request
+
+    + Header
+        
+             Authorization: Basic dXNlcjpwYXNzd29yZA==
+             x-api-version: 1.0
+             Content-type: application/json
+             
+    + Body
+    
+            {
+                "courseName" : "Entremet",
+                "description" : "In modern French cuisine, it is a small dish served between courses."
+            }
+
++ Response 200
+
+### Delete a specific Course [DELETE]
+
++ Parameters
+    + id (required, string, `517f1f77bcf86cd733539111`)... `id` of a course
+
++ Request
+
+    + Header
+        
+             Authorization: Basic dXNlcjpwYXNzd29yZA==
+
++ Response 204
+
+# Group Cuisines
+
+Cuisines allows selection and addition of cuisines who are responsible for creating entered recipes.
+
+## Cuisine Fields
+
+| Name              | Description                                   |
+|-------------------|-----------------------------------------------|
+| `id`              | Automatically assigned                        |
+| `cuisineName`     | Name of the Cuisine                           |
+| `description`     | Description of the Cuisine                    |
+
+## Cuisines Collection [/cuisines]
+
+Operations that select all Cuisines or add a new Cuisine.
+
+### Retrieve all Cuisines [GET]
+
++ Request
+
+    + Header
+    
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+
++ Response 200 (application/json)
+
+    + Header
+        
+            cache-control: max-age=600, s-maxage=1200
+    
+    + Body
+    
+            {
+                "cuisines" :
+                [
+                    {
+                        "id" : "507f1f77bcf86cd799439011",
+                        "cuisineName" : "French",
+                        "description" : "Classic, rich recipes from across France."
+                    },
+                    {
+                        "id" : "507f1f43bcf86ce099439081",
+                        "cuisineName" : "Japanese",
+                        "description" : "Clean and delicate flavours are the hallmark of Japanese cooking."
+                    },
+                    {
+                        "id" : "517f1f77bcf86cd733539090",
+                        "cuisineName" : "Modern Australian",
+                        "description" : "A fusion of cuisines utilising fresh produce Australia is renowned for."
+                    }
+                ]
+            }
+
+### Add a new Cuisine [POST]
+
++ Request (application/json)
+
+    + Header
+    
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+    
+    + Body
+
+            {
+                "cuisineName" : "Italian",
+                "description" : "Characterised by simple recipes which respect fresh produce."
+            }
+
++ Response 201 (application/json)
+
+    + Header
+
+            Location: cuisines/517f1f77bcf86cd733539111
+
+## Existing Cuisines [/cuisines/{id}]
+
+Operations that can be performed on Cuisines that already exist.
+
+### Select a specific Cuisine [GET]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd799439011`)
+
++ Request
+
+    + Header
+            
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+            
++ Response 200 (application/json)
+
+    + Header
+    
+            cache-control: max-age=600, s-maxage=1200
+            
+    + Body
+    
+            {
+                "id" : "507f1f77bcf86cd799439011",
+                "cuisineName" : "French",
+                "description" : "Classic, rich recipes from across France."
+            },
+
+### Update a specific Cuisine [PUT]
+
++ Parameters
+    + id (required, string, `abc123`)... `id` of a cuisine
+
++ Request
+
+    + Header
+        
+             Authorization: Basic dXNlcjpwYXNzd29yZA==
+             x-api-version: 1.0
+             Content-type: application/json
+             
+    + Body
+    
+            {
+                "cuisineName" : "Italian",
+                "description" : "Characterised by simple recipes, often with few ingredients, which respect fresh produce."
+            }
+
++ Response 200
+
+### Delete a specific Cuisine [DELETE]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd799439011`)... `id` of a cuisine
+
++ Request
+
+    + Header
+        
+             Authorization: Basic dXNlcjpwYXNzd29yZA==
+
++ Response 204
+
+# Group Ingredient Categories
+
+Ingredient Categories allows selection and addition of ingredient-categories who are responsible for creating entered recipes.
+
+## Ingredient Categories Fields
+
+| Name              | Description                                   |
+|-------------------|-----------------------------------------------|
+| `id`              | Automatically assigned                        |
+| `categoryName`    | Name of the Ingredient Category               |
+| `description`     | Description of the Ingredient Category        |
+
+## Ingredient Categories Collection [/ingredient-categories]
+
+Operations that select all Ingredient Categories or add a new Ingredient Categories.
+
+### Retrieve all Ingredient Categories [GET]
+
++ Request
+
+    + Header
+    
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+
++ Response 200 (application/json)
+
+    + Header
+        
+            cache-control: max-age=600, s-maxage=1200
+    
+    + Body
+    
+            {
+                "ingredient-categories" :
+                [
+                    {
+                        "id" : "507f1f77bcf86cd799444519",
+                        "categoryName" : "Spices",
+                        "description" : "A seed, fruit, root, bark, berry, bud or vegetable primarily used for flavouring, colouring and/or preserving food"
+                    },
+                    {
+                        "id" : "507f1f77bcf86cd794510021",
+                        "categoryName" : "Fruits & Vegetables",
+                        "description" : "Sweet or savoury ingredients derived from plants."
+                    },
+                    {
+                        "id" : "507f1f77bcf86cd799438842",
+                        "categoryName" : "Meat",
+                        "description" : "Animal flesh eaten as a food."
+                    }
+                ]
+            }
+
+### Add a new Ingredient Category [POST]
+
++ Request (application/json)
+
+    + Header
+    
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+    
+    + Body
+
+            {
+                "id" : "507f1f77bcf86cd79969271",
+                "categoryName" : "Herbs",
+                "description" : "Plants used for flavouring, adding textuire and/or adding fragrance to food."
+            }
+
++ Response 201 (application/json)
+
+    + Header
+
+            Location: ingredient-categories/507f1f77bcf86cd79444120
+
+## Existing Ingredient Categories [/ingredient-categories/{id}]
+
+Operations that can be performed on Ingredient Categories that already exist.
+
+### Select a specific Ingredient Category [GET]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd79969271`)
+
++ Request
+
+    + Header
+            
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+            
++ Response 200 (application/json)
+
+    + Header
+    
+            cache-control: max-age=600, s-maxage=1200
+            
+    + Body
+    
+            {
+                "id" : "507f1f77bcf86cd79969271",
+                "categoryName" : "Meat",
+                "description" : "Animal flesh eaten as a food."
+            }
+
+### Update a specific Ingredient Category [PUT]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd79444120`)... `id` of a ingredient categories
+
++ Request
+
+    + Header
+        
+             Authorization: Basic dXNlcjpwYXNzd29yZA==
+             x-api-version: 1.0
+             Content-type: application/json
+             
+    + Body
+    
+            {
+               "categoryName" : "Meat",
+                "description" : "Animal flesh that is eaten as a food."
+            }
+
++ Response 200
+
+### Delete a specific Ingredient Category [DELETE]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd79444120`)... `id` of a ingredient categories
+
++ Request
+
+    + Header
+        
+             Authorization: Basic dXNlcjpwYXNzd29yZA==
+
++ Response 204
+
+# Group Ingredients
+
+Ingredients allows selection and addition of ingredients who are responsible for creating entered recipes.
+
+## Ingredients Fields
+
+| Name              | Description                                   |
+|-------------------|-----------------------------------------------|
+| `id`              | Automatically assigned                        |
+| `ingredientName`  | Name of the Ingredient                        |
+| `description`     | Description of the Ingredient                 |
+| `categoryName`    | Category the Ingredient belongs to            |
+
+## Ingredients Collection [/ingredients]
+
+Operations that select all Ingredients or add a new Ingredients.
+
+### Retrieve all Ingredients [GET]
+
++ Request
+
+    + Header
+    
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+
++ Response 200 (application/json)
+
+    + Header
+        
+            cache-control: max-age=600, s-maxage=1200
+    
+    + Body
+    
+            {
+                "ingredients" :
+                [
+                    {
+                        "id" : "507f1f77bcf86cd799444519",
+                        "ingredientName" : "Banana",
+                        "description" : "Sweet, yellow fruit of a the bana palm.",
+                        "categoryName" : "Fruits & Vegetables"
+                    },
+                    {
+                        "id" : "507f1f77bcf86cd794510021",
+                        "ingredientName" : "Lamb Shoulder",
+                        "description" : "The upper foreleg portion of a lamb.",
+                        "categoryName" : "Meat"
+                    },
+                    {
+                        "id" : "507f1f77bcf86cd799438842",
+                        "ingredientName" : "Coriander",
+                        "description" : "A fragrant, leafy plant used extensively in Asian cooking.",
+                        "categoryName" : "Herbs"
+                    }
+                ]
+            }
+
+### Add a new Ingredient [POST]
+
++ Request (application/json)
+
+    + Header
+    
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+    
+    + Body
+
+            {
+                "id" : "507f1f77bcf86cd79969271",
+                "ingredientName" : "Cumin",
+                "description" : "Ground seeds of the cumin plant.",
+                "categoryName" : "Spices"
+            }
+
++ Response 201 (application/json)
+
+    + Header
+
+            Location: ingredients/507f1f77bcf86cd79444120
+
+## Existing Ingredients [/ingredients/{id}]
+
+Operations that can be performed on Ingredients that already exist.
+
+### Select a specific Ingredient [GET]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd79969271`)
+
++ Request
+
+    + Header
+            
+            Authorization: Basic dXNlcjpwYXNzd29yZA==
+            x-api-version: 1.0
+            
++ Response 200 (application/json)
+
+    + Header
+    
+            cache-control: max-age=600, s-maxage=1200
+            
+    + Body
+    
+            {
+                "id" : "507f1f77bcf86cd799438842",
+                "ingredientName" : "Coriander",
+                "description" : "A fragrant, leafy plant used extensively in Asian cooking.",
+                "categoryName" : "Herbs"
+            }
+
+### Update a specific Ingredient [PUT]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd79444120`)... `id` of an ingredient
+
++ Request
+
+    + Header
+        
+             Authorization: Basic dXNlcjpwYXNzd29yZA==
+             x-api-version: 1.0
+             Content-type: application/json
+             
+    + Body
+    
+            {
+                "id" : "507f1f77bcf86cd799438842",
+                "ingredientName" : "Coriander",
+                "description" : "A fragrant, small, leafy plant used extensively in Asian cooking.",
+                "categoryName" : "Herbs"
+            }
+
++ Response 200
+
+### Delete a specific Ingredient [DELETE]
+
++ Parameters
+    + id (required, string, `507f1f77bcf86cd79444120`)... `id` of an ingredient
+
++ Request
+
+    + Header
+        
+             Authorization: Basic dXNlcjpwYXNzd29yZA==
+             x-api-version: 1.0
+             
++ Response 204
