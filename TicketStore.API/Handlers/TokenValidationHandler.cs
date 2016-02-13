@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,8 +24,14 @@ namespace TicketStore.API.Handlers
             var method = request.Method.ToString().ToUpper();
 
             var securityToken = GetToken(request);
-
-            _authenticationService.ValidateAccess(securityToken, resource, action, method);
+            try
+            {
+                _authenticationService.ValidateAccess(securityToken, resource, action, method);
+            }
+            catch (UnauthorizedException ex)
+            {
+                return request.CreateErrorResponse(HttpStatusCode.Unauthorized, ex.Message);
+            }
 
             SaveContext(request, _authenticationService);
 

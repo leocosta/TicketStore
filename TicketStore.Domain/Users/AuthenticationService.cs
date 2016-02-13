@@ -68,7 +68,7 @@ namespace TicketStore.Domain.Users
             }
             catch (FormatException)
             {
-                throw new ArgumentException("Invalid SecurityToken.");
+                throw new UnauthorizedException("Invalid SecurityToken.");
             }
 
             if ((DateTime)sessionData["Expires"] < DateTime.Now.ToUniversalTime())
