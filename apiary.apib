@@ -15,7 +15,7 @@ Recurso para geração da chave de acesso (`SecurityToken`) aos recursos protegi
 
 ## Autenticação [/access]
 
-Permite criar `SecurityToken` com base na credencial do Usuário.
+Permite criar `SecurityToken` com base nas credenciais do Usuário.
 
 ## Campos do Usuário
 
@@ -41,6 +41,22 @@ Permite criar `SecurityToken` com base na credencial do Usuário.
     
             SecurityToken: dXNlcjpwYXNzd29yZA==
 
++ Request Credencial Inválida (application/json)
+
+    + Body
+
+            {
+                "email": "jose@email.com",
+                "password": "senhainvalida"
+            }
+
++ Response 401 (application/json)
+    
+    + Body
+    
+            {
+                "message": "User not authorized."
+            }    
 
 # Group Users
 
@@ -48,7 +64,7 @@ Recurso para manutenção de Usuários.
 
 ## Novo Usuário [/users]
 
-Permite a criação de usuários.
+Permite a criação de Usuários.
 
 ## Campos do Usuário
 
@@ -111,9 +127,45 @@ Permite a criação de usuários.
                 "email": "jose@email.com"
             }
 
++ Request Requisição Inválida (application/json)
+
+    + Body
+
+            {
+                "ssn": "12345678900",
+                "gender": "Male",
+                "address": {
+                    "line1": "Rua das Flores",
+                    "line2": "Apt. 25",
+                    "number": "123",
+                    "state": "RJ",
+                    "city": "Rio de Janeiro",
+                    "zipCode": "22123123"
+                },
+                "birthdate": "1981-04-21T00:00:00",
+                "email": "jose@email.com",
+                "password": "abc123",
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "message": "Invalid request.",
+                "errors": [
+                    {
+                        "source": "userViewModel",
+                        "message": [
+                            "Name is required."
+                        ]
+                    }
+                ]
+            }
+            
 ## Usuário específico [/users/{id}]
 
-Operações que podem ser efetuadas com Usuários existentes.
+Seleção de Usuário com base em seu identificador.
 
 ### Seleção de Usuário específico [GET]
 
@@ -151,6 +203,24 @@ Operações que podem ser efetuadas com Usuários existentes.
                 "email": "jose@email.com"
             }
 
++ Request Usuário Inexistente
+
+    + Header
+            
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
++ Response 404 (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+            
+    + Body
+    
+            {
+                "message": "User not found."
+            }
+
 ## Cartões de Crédito do Usuário [/users/{id}/creditcards]
 
 Seleção de cartões de crédito do Usuário.
@@ -184,13 +254,31 @@ Seleção de cartões de crédito do Usuário.
                 }
             ]
 
++ Request Usuário Inexistente
+
+    + Header
+            
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
++ Response 404 (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+            
+    + Body
+    
+            {
+                "message": "User not found."
+            }
+            
 # Group Events
 
 Recurso para manutenção de Eventos.
 
 ## Todos os Eventos [/events]
 
-Permite a seleção de Eventos.
+Permite a seleção de todos os Eventos.
 
 ## Campos do Evento
 
@@ -246,7 +334,7 @@ Permite a seleção de Eventos.
 
 ## Evento específico [/events/{id}]
 
-Operações que podem ser efetuadas com Eventos existentes.
+Seleção de um Evento com base em seu identificador.
 
 ### Seleção de Evento específico [GET]
 
@@ -277,6 +365,24 @@ Operações que podem ser efetuadas com Eventos existentes.
                 "cardImageUrl": "http://ww2.baguete.com.br/admin//cache/sites/default/files/multimedia/imagens/noticia/92094-stock-market-rebounds-worst-day-year-read-more-http-business-time-com20130416stock-market-rebounds-w.jpg"
             }
 
++ Request Evento Inexistente
+
+    + Header
+            
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
++ Response 404 (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+            
+    + Body
+    
+            {
+                "message": "Event not found."
+            }
+            
 # Group Orders
 
 Recurso para manutenção de Pedidos.
@@ -309,7 +415,7 @@ compras anteriores.
 
 ### Criação de Pedido [POST]
 
-+ Request com novo cartão de crédito (application/json)
++ Request Novo cartão de crédito (application/json)
 
     + Header
     
@@ -367,7 +473,7 @@ compras anteriores.
               "quantity": 2
             }
 
-+ Request com cartão de crédito salvo (application/json)
++ Request Cartão de crédito salvo (application/json)
 
     + Header
     
@@ -417,4 +523,48 @@ compras anteriores.
               },
               "status": "Created",
               "quantity": 2
+            }
+            
++ Request Requisição Inválida (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
+    + Body
+
+            {
+                customer: {
+                    userId: 26
+                },
+                quantity: 2,
+                paymentInfo: {
+                    creditCardNumber: "4111111111111111",
+                    creditCardBrand: "Visa",
+                    expMonth: 10,
+                    expYear: 2018,
+                    securityCode: 123,
+                    holderName: "José da Silva",
+                    saveCreditCard: true
+                }
+            }
+
++ Response 400 (application/json)
+
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
+    + Body
+
+            {
+                "message": "Invalid request.",
+                "errors": [
+                    {
+                        "source": "orderViewModel",
+                        "message": [
+                            "Event is required."
+                        ]
+                    }
+                ]
             }
