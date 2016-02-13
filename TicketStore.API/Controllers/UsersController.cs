@@ -22,14 +22,6 @@ namespace TicketStore.API.Controllers
             _userRepository = userRepository;
         }
 
-        // GET api/users
-        public HttpResponseMessage Get()
-        {
-            var users = _userRepository.GetAll();
-            var result = Mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users);
-            return Request.CreateResponse(result);
-        }
-
         // GET api/users/5
         public HttpResponseMessage Get(int id) { 
             var user = _userRepository.Get(id);
@@ -63,7 +55,7 @@ namespace TicketStore.API.Controllers
             }
        
             var result = Mapper.Map<User, UserViewModel>(user);
-            return Request.CreateResponse(result);
+            return Request.CreateResponse(HttpStatusCode.Created, result);
         }
 
         // GET api/users/5/creditcards

@@ -40,6 +40,7 @@ namespace TicketStore.Service.Actors
             Receive<ProcessPayment>(cmd => processPaymentHandler(cmd));
             Receive<PaymentProcessed>(cmd => paymentProcessedHandler(cmd));
         }
+
         private void placeOrderHandler(PlaceOrder placeOrder)
         {
             var customer = _userRepository.Get(placeOrder.UserId);
@@ -67,6 +68,7 @@ namespace TicketStore.Service.Actors
 
             Self.Tell(new OrderPlaced(order.OrderId, placeOrder.PaymentInfo));
         }
+
         private void orderPlacedHandler(OrderPlaced orderPlaced)
         {
             //TODO: Send email to customer

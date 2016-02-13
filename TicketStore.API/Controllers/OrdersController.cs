@@ -27,7 +27,7 @@ namespace TicketStore.API.Controllers
                 var placeOrder = new PlaceOrder(orderViewModel.Customer.UserId.Value, orderViewModel.Event.EventId.Value, orderViewModel.Quantity, paymentInfo);
                 var order = await WebApiApplication.OrderProcessorActor.Ask<Order>(placeOrder);
                 var result = Mapper.Map<Order, OrderViewModel>(order);
-                return Request.CreateResponse(result);
+                return Request.CreateResponse(HttpStatusCode.Created, result);
             }
             catch (Exception ex)
             {
