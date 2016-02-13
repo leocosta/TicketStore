@@ -9,6 +9,39 @@ Queremos que você conheça uma nova forma de vender ingressos online.
 Você poderá integrar seu sistema com a plataforma TicketStore com total flexibilidade. 
 Veja a seguir a descrição dos principais recursos de nossa API:
 
+# Group Access
+
+Recurso para geração da chave de acesso (`SecurityToken`) aos recursos protegidos da API.
+
+## Autenticação [/access]
+
+Permite criar `SecurityToken` com base na credencial do Usuário.
+
+## Campos do Usuário
+
+| Nome              | Descrição                                     |
+|-------------------|-----------------------------------------------|
+| `email`           | E-mail do Usuário                             |
+| `password`        | Senha do Usuário                              |
+
+### Criação do SecurityToken [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "email": "jose@email.com",
+                "password": "abc123"
+            }
+
++ Response 200 (application/json)
+    
+    + Header
+    
+            SecurityToken: dXNlcjpwYXNzd29yZA==
+
+
 # Group Users
 
 Recurso para manutenção de Usuários.
