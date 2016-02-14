@@ -11,16 +11,16 @@ Veja a seguir a descrição dos principais recursos de nossa API:
 
 ## Informações Gerais
 
-Este manual tem como objetivo descrever o funcionamento da API 
-aos desenvolvedores de sistemas de informática que desejam integrar outros 
-sistemas à nossa plataforma. Praticamente todas as operações realizadas através de
-nossa API, poderão ser feitas pelo nosso site. A grande vantagem é que o 
+Este documento tem como objetivo descrever o funcionamento da API 
+aos desenvolvedores que desejam integrar outros sistemas à nossa plataforma. 
+Praticamente todas as operações realizadas através de
+nossa API, podem ser feitas também pelo nosso site. A grande vantagem é que o 
 desenvolvedor poderá montar sua própria interface e unir em tempo real 
 as informações de outros sistemas com as informações da nossa plataforma.
 
 Antes de acessar os métodos de criação de pedido, consulta de usuários ou 
-consulta de cartões de crédito do usuário, será necessária uma autenticação 
-que gerará um código (`SecurityToken`) que deverá ser passado no `header` 
+consulta de cartões de crédito do usuário, será necessária a autenticação 
+que gerará um código (`SecurityToken`) que deverá ser fornecido no `header` 
 de cada solicitação.
 
 A nossa API interpreta a requisição e valida cada um dos campos enviados. 
@@ -29,10 +29,9 @@ uma resposta contendo os campos inválidos e o motivo do erro.
 
 ## Códigos de Resposta HTTP
 
-A nossa API valida os diversos campos enviados na requisição (request) 
-antes de prosseguir com a consulta de eventos, criação de usuários ou 
-criação de pedidos. Utilizamos os códigos HTTP convencionados pela W3C 
-para resposta das requisições, conforme tabela abaixo:
+A nossa API valida os diversos campos e parâmetros enviados na requisição (request) 
+antes de prosseguir com o processamento da solicitação. Utilizamos os códigos HTTP 
+convencionados pela W3C para resposta das requisições, conforme tabela abaixo:
 
 |Código  | Nome                     | Descrição                                                             |
 |--------|--------------------------|-----------------------------------------------------------------------|
@@ -47,12 +46,13 @@ para resposta das requisições, conforme tabela abaixo:
 
 ## É hora de integrar!
 
-Agora que já conhece melhor o modelo de nossa API, você já pode iniciar o 
-desenvolvimento de sua aplicação.
+Agora que já conhecer melhor o modelo de nossa API. Você já pode iniciar o 
+desenvolvimento de sua aplicação utilizando nosso ambiente.
 
 # Group Acesso
 
-Recurso para geração da chave de acesso (`SecurityToken`) aos recursos protegidos da API.
+Recurso para geração da chave de acesso (`SecurityToken`) aos recursos protegidos da 
+API.
 
 ## Autenticação [/access]
 
