@@ -19,6 +19,7 @@ namespace TicketStore.Service.Actors
         private readonly IEventRepository _eventRepository;
         private readonly IPaymentService _paymentService;
         private readonly INotificationService _notificationService;
+        
         public OrderProcessorActor(IUnitOfWork unitOfWork, IOrderRepository orderRepository, IUserRepository userRepository, IEventRepository eventRepository,
             IPaymentService paymentService, INotificationService notificationService)
         {
