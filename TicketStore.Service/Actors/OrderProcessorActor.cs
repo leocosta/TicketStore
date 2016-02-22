@@ -118,6 +118,7 @@ namespace TicketStore.Service.Actors
                 Logger.Error("Failed to send email: {0}", ex);
             }
         }
+        
         protected override void PreRestart(Exception reason, object message)
         {
             Sender.Tell(reason);
