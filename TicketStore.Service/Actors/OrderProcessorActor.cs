@@ -44,11 +44,11 @@ namespace TicketStore.Service.Actors
         {
             var customer = _userRepository.Get(placeOrder.UserId);
             if (customer == null)
-                throw new InvalidOperationException("User not not found.");
+                throw new InvalidOperationException("User not found.");
 
             var @event = _eventRepository.Get(placeOrder.EventId);
             if (@event == null)
-                throw new InvalidOperationException("Event not not found.");
+                throw new InvalidOperationException("Event not found.");
 
             if (placeOrder.PaymentInfo.CreditCardId.HasValue)
             {
